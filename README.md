@@ -1,7 +1,1 @@
-echo "# smartburme.io" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/smartburme/website.io.git
-git push -u origin main# smartburme.io
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bf67b93c-449d-4875-b876-8e14b780ccb0/deploy-status)](https://app.netlify.com/projects/smart-burme/deploys)
