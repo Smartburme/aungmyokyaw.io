@@ -1,3 +1,4 @@
 Host: www
 Value: smartburme.io
 TTL: Automatic
+CNAME:www.smartburme.io
