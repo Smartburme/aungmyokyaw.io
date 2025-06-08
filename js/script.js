@@ -1,12 +1,12 @@
 // Firebase configuration
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCK8xFznYs4FFuH-JBmXhX69I9iIdFC-DY",
+  authDomain: "smart-burme-ai.firebaseapp.com",
+  projectId: "smart-burme-ai",
+  storageBucket: "smart-burme-ai.appspot.com",
+  messagingSenderId: "1057673784315",
+  appId: "1:1057673784315:web:b7004e00ce88b7ecd3b95e",
+  measurementId: "G-VDB178C50B"
 };
 
 // Initialize Firebase
