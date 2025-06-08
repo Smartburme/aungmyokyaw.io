@@ -1,138 +1,40 @@
-body {
-    font-family: 'Padauk', sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
-}
+/* styles.css */
 
-header {
-    background-color: #2c3e50;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
+:root { --primary-color: #4A90E2; --bg-color: #f8f9fa; --text-color: #333; --ai-bg: #e6f0ff; --user-bg: #d1f5d3; --border-radius: 12px; }
 
-h1 {
-    margin: 0;
-    font-size: 1.8rem;
-}
+body { margin: 0; font-family: 'Segoe UI', sans-serif; background-color: var(--bg-color); color: var(--text-color); display: flex; flex-direction: column; min-height: 100vh; }
 
-.chat-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-}
+header { background-color: var(--primary-color); color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
 
-.chat-box {
-    height: 400px;
-    padding: 1rem;
-    overflow-y: auto;
-    border-bottom: 1px solid #eee;
-}
+.logo { font-size: 1.5rem; font-weight: bold; }
 
-.message {
-    margin-bottom: 1rem;
-    padding: 0.8rem 1.2rem;
-    border-radius: 18px;
-    max-width: 70%;
-    line-height: 1.5;
-    animation: fadeIn 0.3s ease;
-}
+nav .nav-btn { background: white; color: var(--primary-color); border: none; margin: 0.25rem; padding: 0.5rem 1rem; border-radius: var(--border-radius); cursor: pointer; transition: background 0.3s; }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+nav .nav-btn:hover { background-color: #e0ecff; }
 
-.user-message {
-    background: #3498db;
-    color: white;
-    margin-left: auto;
-    border-bottom-right-radius: 4px;
-}
+.tab { display: none; padding: 1rem; flex-grow: 1; }
 
-.ai-message {
-    background: #ecf0f1;
-    margin-right: auto;
-    border-bottom-left-radius: 4px;
-}
+.tab.active { display: block; }
 
-.input-area {
-    display: flex;
-    padding: 1rem;
-    background: #f9f9f9;
-}
+.chat-container, .gen-container { max-width: 600px; margin: 1rem auto; display: flex; flex-direction: column; gap: 1rem; }
 
-input {
-    flex: 1;
-    padding: 0.7rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-family: 'Padauk', sans-serif;
-    outline: none;
-}
+#chat-box { background: white; border-radius: var(--border-radius); padding: 1rem; height: 300px; overflow-y: auto; border: 1px solid #ddd; }
 
-button {
-    background: #2ecc71;
-    color: white;
-    border: none;
-    padding: 0 1.5rem;
-    margin-left: 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s;
-}
+.input-area { display: flex; gap: 0.5rem; }
 
-button:hover {
-    background: #27ae60;
-}
+.input-area input { flex-grow: 1; padding: 0.5rem; border-radius: var(--border-radius); border: 1px solid #ccc; }
 
-.loading {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    z-index: 1000;
-    display: none;
-}
+.input-area button { background: var(--primary-color); color: white; border: none; border-radius: var(--border-radius); padding: 0.5rem 1rem; cursor: pointer; }
 
-.spinner {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-}
+.message { margin-bottom: 0.5rem; padding: 0.5rem; border-radius: var(--border-radius); max-width: 80%; }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+.user-message { background-color: var(--user-bg); align-self: flex-end; }
 
-@media (max-width: 600px) {
-    .chat-container {
-        margin: 0;
-        border-radius: 0;
-    }
-    
-    .message {
-        max-width: 85%;
-    }
-    }
+.ai-message { background-color: var(--ai-bg); align-self: flex-start; }
+
+#image-result img, #video-result video { width: 100%; max-width: 500px; border-radius: var(--border-radius); }
+
+footer { text-align: center; padding: 1rem; font-size: 0.9rem; color: #666; background: #f1f1f1; margin-top: auto; }
+
+@media (max-width: 600px) { .chat-container, .gen-container { padding: 0 1rem; } }
+
