@@ -1,15 +1,122 @@
-// Firebase Configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
-    // ... other config
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
-// Main Application Logic
 document.addEventListener('DOMContentLoaded', function() {
-    // Chat functionality
-    // Firebase integration
-    // API calls
+    const chatBox = document.getElementById('chat-box');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const loading = document.getElementById('loading');
+
+    // စတင်ချိန်မှာ AI ကနေ ကြိုဆိုစကား
+    displayMessage("မင်္ဂလာပါ! SmartBurme AI မှ ကြိုဆိုပါတယ်။ ဘာတွေ ကူညီပေးရမလဲ?", 'ai');
+
+    // စာပို့ခြင်းလုပ်ဆောင်ချက်
+    function sendMessage() {
+        const message = userInput.value.trim();
+        if (message === '') return;
+
+        // User message ကို ပြသခြင်း
+        displayMessage(message, 'user');
+        userInput.value = '';
+        
+        // Loading indicator ပြခြင်း
+        loading.style.display = 'flex';
+        
+        // Firebase သို့ message သိမ်းဆည်းခြင်း
+        saveMessageToFirebase(message, 'user');
+        
+        // AI ဖြေကြားချက်အတွက် API ကိုခေါ်ခြင်း
+        getAIResponse(message)
+            .then(aiResponse => {
+                displayMessage(aiResponse, 'ai');
+                saveMessageToFirebase(aiResponse, 'ai');
+            })
+            .catch(error => {
+                displayMessage("တောင်းပန်ပါတယ်၊ အချက်အလက်ရယူရာတွင် အခက်အခဲတစ်ခုဖြစ်နေပါသည်။", 'ai');
+                console.error("API Error:", error);
+            })
+            .finally(() => {
+                loading.style.display = 'none';
+            });
+    }
+
+    // Message ကို chat box တွင် ပြသခြင်း
+    function displayMessage(message, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', `${sender}-message`);
+        messageDiv.textContent = message;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // Firebase တွင် message သိမ်းဆည်းခြင်း
+    function saveMessageToFirebase(message, sender) {
+        const timestamp = new Date().getTime();
+        database.ref('messages/' + timestamp).set({
+            sender: sender,
+            message: message,
+            timestamp: timestamp
+        });
+    }
+
+    // API မှ AI ဖြေကြားချက်ရယူခြင်း
+    async function getAIResponse(question) {
+        // ဒီနေရာမှာ သင့်ရဲ့ API endpoint ကိုအစားထိုးပါ
+        const apiUrl = 'https://your-ai-api-endpoint.com/ask';
+        
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    question: question,
+                    language: 'myanmar'
+                })
+            });
+            
+            if (!response.ok) {
+                throw new Error('API request failed');
+            }
+            
+            const data = await response.json();
+            return data.answer || "တောင်းပန်ပါတယ်၊ ကျွန်တော်ဒီမေးခွန်းကို နားမလည်သေးပါဘူး။";
+        } catch (error) {
+            console.error("API Error:", error);
+            return "တောင်းပန်ပါတယ်၊ အချက်အလက်ရယူရာတွင် အခက်အခဲတစ်ခုဖြစ်နေပါသည်။";
+        }
+    }
+
+    // Event listeners
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // ယခင်စကားဝိုင်းများကို Firebase မှ ပြန်လည်ရယူခြင်း
+    database.ref('messages').orderByChild('timestamp').limitToLast(10).on('value', (snapshot) => {
+        const messages = snapshot.val();
+        if (messages) {
+            chatBox.innerHTML = '';
+            Object.keys(messages).forEach(key => {
+                const msg = messages[key];
+                displayMessage(msg.message, msg.sender);
+            });
+        }
+    });
 });
