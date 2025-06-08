@@ -1,31 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartBurme AI - မြန်မာ့ AI အကူအညီပေးစနစ်</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Burme AI</title>
+  <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>SmartBurme AI</h1>
-        <p>မြန်မာဘာသာဖြင့် အခမဲ့ အကူအညီရယူပါ</p>
-    </header>
-
-    <main>
-        <div class="chat-container">
-            <div id="chat-box" class="chat-box"></div>
-            <div class="input-area">
-                <input type="text" id="user-input" placeholder="မေးခွန်းမေးပါ..." autofocus>
-                <button id="send-btn">ပို့ရန်</button>
-            </div>
+  <header>
+    <div class="logo">Smart Burme AI</div>
+    <nav>
+      <button class="nav-btn" data-tab="chat-tab">Text</button>
+      <button class="nav-btn" data-tab="image-tab">Image</button>
+      <button class="nav-btn" data-tab="video-tab">Video</button>
+    </nav>
+  </header>  <main>
+    <!-- Text Chat Tab -->
+    <section id="chat-tab" class="tab active">
+      <div class="chat-container">
+        <div id="chat-box"></div>
+        <div class="input-area">
+          <input type="text" id="user-input" placeholder="မေးခွန်းမေးပါ...">
+          <button id="send-btn">ပို့ရန်</button>
         </div>
-    </main>
+      </div>
+    </section><!-- Image Generator Tab -->
+<section id="image-tab" class="tab">
+  <div class="gen-container">
+    <input type="text" id="image-prompt" placeholder="ပုံဖန်တီးရန်စာရေးပါ">
+    <button id="image-generate">Generate Image</button>
+    <div id="image-result"></div>
+  </div>
+</section>
 
-    <footer>
-        <p>© 2023 SmartBurme AI. All rights reserved.</p>
-    </footer>
+<!-- Video Generator Tab -->
+<section id="video-tab" class="tab">
+  <div class="gen-container">
+    <input type="text" id="video-prompt" placeholder="ဗီဒီယိုဖန်တီးရန်စာရေးပါ">
+    <button id="video-generate">Generate Video</button>
+    <div id="video-result"></div>
+  </div>
+</section>
 
-    <script src="js/script.js"></script>
-</body>
+  </main>  <footer>
+    &copy; 2025 Smart Burme AI. All rights reserved.
+  </footer>  <script type="module" src="./js/firebase-config.js"></script>  <script type="module" src="./js/script.js"></script></body>
 </html>
