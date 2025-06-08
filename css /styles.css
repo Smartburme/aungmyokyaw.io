@@ -1,0 +1,20 @@
+/* Global Styles */
+body {
+    font-family: 'Padauk', sans-serif;
+    /* ... */
+}
+
+/* Logo Styles */
+.logo-container {
+    /* ... */
+}
+
+/* Chat Interface Styles */
+.chat-container {
+    /* ... */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    /* ... */
+}
