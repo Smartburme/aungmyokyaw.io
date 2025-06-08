@@ -1,122 +1,149 @@
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCK8xFznYs4FFuH-JBmXhX69I9iIdFC-DY",
-  authDomain: "smart-burme-ai.firebaseapp.com",
-  projectId: "smart-burme-ai",
-  storageBucket: "smart-burme-ai.appspot.com",
-  messagingSenderId: "1057673784315",
-  appId: "1:1057673784315:web:b7004e00ce88b7ecd3b95e",
-  measurementId: "G-VDB178C50B"
-};
+// script.js (ES Module version)
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+import { rtdb } from './firebase-config.js';
+import {
+  ref,
+  push,
+  onChildAdded
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-document.addEventListener('DOMContentLoaded', function() {
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
-    const loading = document.getElementById('loading');
+// ========== Tab Switching ==========
+const tabs = [
+  document.getElementById('chat-tab'),
+  document.getElementById('image-tab'),
+  document.getElementById('video-tab')
+];
+const navButtons = [
+  document.getElementById('tab-chat-btn'),
+  document.getElementById('tab-image-btn'),
+  document.getElementById('tab-video-btn')
+];
 
-    // စတင်ချိန်မှာ AI ကနေ ကြိုဆိုစကား
-    displayMessage("မင်္ဂလာပါ! SmartBurme AI မှ ကြိုဆိုပါတယ်။ ဘာတွေ ကူညီပေးရမလဲ?", 'ai');
+navButtons.forEach((btn, i) => {
+  btn.addEventListener('click', () => {
+    tabs.forEach(tab => tab.classList.remove('active'));
+    tabs[i].classList.add('active');
+  });
+});
 
-    // စာပို့ခြင်းလုပ်ဆောင်ချက်
-    function sendMessage() {
-        const message = userInput.value.trim();
-        if (message === '') return;
+// ========== Chat ==========
+const chatBox = document.getElementById('chat-box');
+const chatInput = document.getElementById('chat-input');
+const chatSendBtn = document.getElementById('chat-send-btn');
+const chatRef = ref(rtdb, 'chatMessages');
 
-        // User message ကို ပြသခြင်း
-        displayMessage(message, 'user');
-        userInput.value = '';
-        
-        // Loading indicator ပြခြင်း
-        loading.style.display = 'flex';
-        
-        // Firebase သို့ message သိမ်းဆည်းခြင်း
-        saveMessageToFirebase(message, 'user');
-        
-        // AI ဖြေကြားချက်အတွက် API ကိုခေါ်ခြင်း
-        getAIResponse(message)
-            .then(aiResponse => {
-                displayMessage(aiResponse, 'ai');
-                saveMessageToFirebase(aiResponse, 'ai');
-            })
-            .catch(error => {
-                displayMessage("တောင်းပန်ပါတယ်၊ အချက်အလက်ရယူရာတွင် အခက်အခဲတစ်ခုဖြစ်နေပါသည်။", 'ai');
-                console.error("API Error:", error);
-            })
-            .finally(() => {
-                loading.style.display = 'none';
-            });
-    }
+function appendMessage(text, isUser) {
+  const msgDiv = document.createElement('div');
+  msgDiv.classList.add('message', isUser ? 'user-message' : 'ai-message');
+  msgDiv.textContent = text;
+  chatBox.appendChild(msgDiv);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
-    // Message ကို chat box တွင် ပြသခြင်း
-    function displayMessage(message, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', `${sender}-message`);
-        messageDiv.textContent = message;
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+chatSendBtn.addEventListener('click', () => {
+  const message = chatInput.value.trim();
+  if (!message) return;
 
-    // Firebase တွင် message သိမ်းဆည်းခြင်း
-    function saveMessageToFirebase(message, sender) {
-        const timestamp = new Date().getTime();
-        database.ref('messages/' + timestamp).set({
-            sender: sender,
-            message: message,
-            timestamp: timestamp
-        });
-    }
+  push(chatRef, {
+    sender: 'user',
+    text: message,
+    timestamp: Date.now()
+  });
 
-    // API မှ AI ဖြေကြားချက်ရယူခြင်း
-    async function getAIResponse(question) {
-        // ဒီနေရာမှာ သင့်ရဲ့ API endpoint ကိုအစားထိုးပါ
-        const apiUrl = 'https://your-ai-api-endpoint.com/ask';
-        
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    question: question,
-                    language: 'myanmar'
-                })
-            });
-            
-            if (!response.ok) {
-                throw new Error('API request failed');
-            }
-            
-            const data = await response.json();
-            return data.answer || "တောင်းပန်ပါတယ်၊ ကျွန်တော်ဒီမေးခွန်းကို နားမလည်သေးပါဘူး။";
-        } catch (error) {
-            console.error("API Error:", error);
-            return "တောင်းပန်ပါတယ်၊ အချက်အလက်ရယူရာတွင် အခက်အခဲတစ်ခုဖြစ်နေပါသည်။";
-        }
-    }
-
-    // Event listeners
-    sendBtn.addEventListener('click', sendMessage);
-    userInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendMessage();
-        }
+  fetch('https://us-central1-smartburme.cloudfunctions.net/getAIResponse', {
+    method: 'POST',
+    body: JSON.stringify({ prompt: message }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(data => {
+    push(chatRef, {
+      sender: 'ai',
+      text: data.reply,
+      timestamp: Date.now()
     });
+  });
 
-    // ယခင်စကားဝိုင်းများကို Firebase မှ ပြန်လည်ရယူခြင်း
-    database.ref('messages').orderByChild('timestamp').limitToLast(10).on('value', (snapshot) => {
-        const messages = snapshot.val();
-        if (messages) {
-            chatBox.innerHTML = '';
-            Object.keys(messages).forEach(key => {
-                const msg = messages[key];
-                displayMessage(msg.message, msg.sender);
-            });
-        }
+  chatInput.value = '';
+});
+
+onChildAdded(chatRef, snapshot => {
+  const data = snapshot.val();
+  if (data) appendMessage(data.text, data.sender === 'user');
+});
+
+// ========== Image Generation ==========
+const imageInput = document.getElementById('image-input');
+const imageGenBtn = document.getElementById('image-gen-btn');
+const imageResult = document.getElementById('image-result');
+const imageGenRef = ref(rtdb, 'imageResults');
+
+imageGenBtn.addEventListener('click', () => {
+  const prompt = imageInput.value.trim();
+  if (!prompt) return;
+
+  fetch('https://us-central1-smartburme.cloudfunctions.net/generateImage', {
+    method: 'POST',
+    body: JSON.stringify({ prompt }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(data => {
+    push(imageGenRef, {
+      prompt,
+      url: data.url,
+      timestamp: Date.now()
     });
+  });
+
+  imageInput.value = '';
+});
+
+onChildAdded(imageGenRef, snapshot => {
+  const data = snapshot.val();
+  if (data?.url) {
+    imageResult.innerHTML = '';
+    const img = document.createElement('img');
+    img.src = data.url;
+    img.alt = data.prompt;
+    imageResult.appendChild(img);
+  }
+});
+
+// ========== Video Generation ==========
+const videoInput = document.getElementById('video-input');
+const videoGenBtn = document.getElementById('video-gen-btn');
+const videoResult = document.getElementById('video-result');
+const videoGenRef = ref(rtdb, 'videoResults');
+
+videoGenBtn.addEventListener('click', () => {
+  const prompt = videoInput.value.trim();
+  if (!prompt) return;
+
+  fetch('https://us-central1-smartburme.cloudfunctions.net/generateVideo', {
+    method: 'POST',
+    body: JSON.stringify({ prompt }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => res.json())
+  .then(data => {
+    push(videoGenRef, {
+      prompt,
+      url: data.url,
+      timestamp: Date.now()
+    });
+  });
+
+  videoInput.value = '';
+});
+
+onChildAdded(videoGenRef, snapshot => {
+  const data = snapshot.val();
+  if (data?.url) {
+    videoResult.innerHTML = '';
+    const vid = document.createElement('video');
+    vid.src = data.url;
+    vid.controls = true;
+    videoResult.appendChild(vid);
+  }
 });
