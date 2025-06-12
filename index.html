@@ -1,47 +1,108 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="my">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Burme AI</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Burme AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS styles များကို ယခင်အတိုင်းထည့်ပါ */
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">Smart Burme AI</div>
-    <nav>
-      <button class="nav-btn" data-tab="chat-tab">Text</button>
-      <button class="nav-btn" data-tab="image-tab">Image</button>
-      <button class="nav-btn" data-tab="video-tab">Video</button>
-    </nav>
-  </header>  <main>
-    <!-- Text Chat Tab -->
-    <section id="chat-tab" class="tab active">
-      <div class="chat-container">
-        <div id="chat-box"></div>
-        <div class="input-area">
-          <input type="text" id="user-input" placeholder="မေးခွန်းမေးပါ...">
-          <button id="send-btn">ပို့ရန်</button>
+    <div class="app-frame">
+        <header class="header">
+            <i class="fas fa-home home-icon"></i>
+            <h1 class="app-title">Smart Burme Ai</h1>
+            <div class="profile-avatar">
+                <img src="https://via.placeholder.com/40x40?text=User" alt="User">
+            </div>
+        </header>
+
+        <div class="chat-display">
+            <p class="initial-message">ကျွန်တော်ဘာကူညီပေးရမလဲ?</p>
         </div>
-      </div>
-    </section><!-- Image Generator Tab -->
-<section id="image-tab" class="tab">
-  <div class="gen-container">
-    <input type="text" id="image-prompt" placeholder="ပုံဖန်တီးရန်စာရေးပါ">
-    <button id="image-generate">Generate Image</button>
-    <div id="image-result"></div>
-  </div>
-</section>
 
-<!-- Video Generator Tab -->
-<section id="video-tab" class="tab">
-  <div class="gen-container">
-    <input type="text" id="video-prompt" placeholder="ဗီဒီယိုဖန်တီးရန်စာရေးပါ">
-    <button id="video-generate">Generate Video</button>
-    <div id="video-result"></div>
-  </div>
-</section>
+        <footer class="input-section">
+            <div class="input-container">
+                <i class="fas fa-thumbtack pin-icon"></i>
+                <input type="text" class="message-input" placeholder="စာရိုက်ထည့်ပါ...">
+                <i class="fas fa-paper-plane send-icon"></i>
+            </div>
+        </footer>
+    </div>
 
-  </main>  <footer>
-    &copy; 2025 Smart Burme AI. All rights reserved.
-  </footer>  <script type="module" src="js/firebase-config.js"></script>  <script type="module" src="js/script.js"></script></body>
+    <script>
+        // DOM elements
+        const messageInput = document.querySelector('.message-input');
+        const sendButton = document.querySelector('.send-icon');
+        const chatDisplay = document.querySelector('.chat-display');
+        const initialMessage = document.querySelector('.initial-message');
+
+        // စာတို့ထည့်ရန် function
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            chatDisplay.appendChild(messageDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        // AI စာရိုက်နေသည်ကို ပြခြင်း
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai-message';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = 'AI စာရိုက်နေပါသည်<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
+            chatDisplay.appendChild(typingDiv);
+            chatDisplay.scrollTop = chatDisplay.scrollHeight;
+        }
+
+        // AI စာရိုက်နေသည့်အချက်ကို ဖယ်ရှားခြင်း
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        // စာပို့ရန် function
+        async function sendMessage() {
+            const userMessage = messageInput.value.trim();
+            if (userMessage) {
+                if (initialMessage) {
+                    initialMessage.style.display = 'none';
+                }
+
+                addMessage(userMessage, 'user');
+                messageInput.value = '';
+                
+                showTypingIndicator();
+                
+                try {
+                    const response = await fetch('http://localhost:3000/api/chat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: userMessage })
+                    });
+                    
+                    const data = await response.json();
+                    addMessage(data.reply, 'ai');
+                } catch (error) {
+                    addMessage("ဆက်သွယ်ရေးအမှားဖြစ်နေပါသည်", 'ai');
+                } finally {
+                    removeTypingIndicator();
+                }
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
 </html>
