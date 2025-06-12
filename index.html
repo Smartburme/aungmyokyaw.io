@@ -1,108 +1,41 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Burme AI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Previous head content remains the same -->
     <style>
-        /* CSS styles များကို ယခင်အတိုင်းထည့်ပါ */
+        /* Add this to your existing styles */
+        .loading-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #f00;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <div class="app-frame">
-        <header class="header">
-            <i class="fas fa-home home-icon"></i>
-            <h1 class="app-title">Smart Burme Ai</h1>
-            <div class="profile-avatar">
-                <img src="https://via.placeholder.com/40x40?text=User" alt="User">
-            </div>
-        </header>
-
-        <div class="chat-display">
-            <p class="initial-message">ကျွန်တော်ဘာကူညီပေးရမလဲ?</p>
-        </div>
-
-        <footer class="input-section">
-            <div class="input-container">
-                <i class="fas fa-thumbtack pin-icon"></i>
-                <input type="text" class="message-input" placeholder="စာရိုက်ထည့်ပါ...">
-                <i class="fas fa-paper-plane send-icon"></i>
-            </div>
-        </footer>
+    <!-- Add this loading container just after body tag -->
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-spinner"></div>
     </div>
 
-    <script>
-        // DOM elements
-        const messageInput = document.querySelector('.message-input');
-        const sendButton = document.querySelector('.send-icon');
-        const chatDisplay = document.querySelector('.chat-display');
-        const initialMessage = document.querySelector('.initial-message');
-
-        // စာတို့ထည့်ရန် function
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            messageDiv.textContent = text;
-            chatDisplay.appendChild(messageDiv);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
-        }
-
-        // AI စာရိုက်နေသည်ကို ပြခြင်း
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message ai-message';
-            typingDiv.id = 'typing-indicator';
-            typingDiv.innerHTML = 'AI စာရိုက်နေပါသည်<span class="typing-indicator"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></span>';
-            chatDisplay.appendChild(typingDiv);
-            chatDisplay.scrollTop = chatDisplay.scrollHeight;
-        }
-
-        // AI စာရိုက်နေသည့်အချက်ကို ဖယ်ရှားခြင်း
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typing-indicator');
-            if (indicator) {
-                indicator.remove();
-            }
-        }
-
-        // စာပို့ရန် function
-        async function sendMessage() {
-            const userMessage = messageInput.value.trim();
-            if (userMessage) {
-                if (initialMessage) {
-                    initialMessage.style.display = 'none';
-                }
-
-                addMessage(userMessage, 'user');
-                messageInput.value = '';
-                
-                showTypingIndicator();
-                
-                try {
-                    const response = await fetch('http://localhost:3000/api/chat', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ message: userMessage })
-                    });
-                    
-                    const data = await response.json();
-                    addMessage(data.reply, 'ai');
-                } catch (error) {
-                    addMessage("ဆက်သွယ်ရေးအမှားဖြစ်နေပါသည်", 'ai');
-                } finally {
-                    removeTypingIndicator();
-                }
-            }
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-    </script>
-</body>
-</html>
+    <!-- Rest of your existing HTML remains the same -->
