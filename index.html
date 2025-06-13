@@ -2,144 +2,336 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smart Burme AI Chat</title>
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Fonts & Icons -->
+    
+    <!-- မြန်မာဖောင့်နှင့် ဒီဇိုင်းအတွက် -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icon Library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- PWA Manifest -->
+    
+    <!-- PWA Configuration -->
+    <meta name="theme-color" content="#2c3e50">
     <link rel="manifest" href="manifest.json">
+    
+    <style>
+        /* မြန်မာစာအတွက် အခြေခံဒီဇိုင်း */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --text-color: #2c3e50;
+            --bg-color: #f5f5f5;
+            --ai-bubble: #e3f2fd;
+            --user-bubble: #d1e7dd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Myanmar', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            direction: rtl; /* မြန်မာစာအတွက် RTL */
+            unicode-bidi: bidi-override;
+        }
+        
+        /* မိုဘိုင်းအတွက် Responsive Design */
+        .app-container {
+            max-width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Header Styles */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .app-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        /* Chat Area */
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Noto Sans Myanmar" font-size="10" fill="rgba(0,0,0,0.05)">Smart Burme</text></svg>');
+        }
+        
+        /* Message Bubbles */
+        .message-group {
+            margin-bottom: 15px;
+            clear: both;
+        }
+        
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 5px;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .ai-message {
+            background-color: var(--ai-bubble);
+            float: left;
+            border-top-left-radius: 5px;
+        }
+        
+        .user-message {
+            background-color: var(--user-bubble);
+            float: right;
+            border-top-right-radius: 5px;
+        }
+        
+        /* Input Area */
+        .input-area {
+            padding: 10px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .message-input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            resize: none;
+            max-height: 120px;
+            direction: rtl;
+            unicode-bidi: bidi-override;
+        }
+        
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        /* Loading Animation */
+        .typing-indicator {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--ai-bubble);
+            border-radius: 18px;
+        }
+        
+        .typing-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #666;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .app-container {
+                max-width: 500px;
+                height: 90vh;
+                margin: 5vh auto;
+                border-radius: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Splash Screen -->
-    <div class="splash-screen" id="splashScreen">
-        <div class="splash-content">
-            <img src="assets/logo.png" alt="Smart Burme Logo" class="splash-logo">
-            <div class="splash-spinner"></div>
-        </div>
-    </div>
-
-    <!-- Main App Container -->
     <div class="app-container">
-        <!-- Header with Gradient -->
+        <!-- App Header -->
         <header class="app-header">
-            <button class="header-btn menu-btn" aria-label="Menu">
+            <button class="header-btn" id="menuBtn">
                 <i class="fas fa-bars"></i>
             </button>
-            <h1 class="app-title">
-                <span class="app-logo">Smart Burme</span>
-                <span class="ai-badge">AI</span>
-            </h1>
-            <button class="header-btn profile-btn" aria-label="Profile">
-                <div class="avatar">
-                    <img src="assets/default-avatar.png" alt="User Profile" class="avatar-img">
-                    <span class="online-status"></span>
-                </div>
+            <h1 class="app-title">Smart Burme AI</h1>
+            <button class="header-btn" id="profileBtn">
+                <i class="fas fa-user"></i>
             </button>
         </header>
-
-        <!-- Chat Area -->
+        
+        <!-- Chat Messages Container -->
         <main class="chat-container" id="chatContainer">
             <!-- Welcome Message -->
-            <div class="message-group welcome-message">
+            <div class="message-group">
                 <div class="message-bubble ai-message">
                     <div class="message-content">
                         <p>မင်္ဂလာပါ! Smart Burme AI Chat မှကြိုဆိုပါတယ်။ ကျွန်တော်ဘာကူညီပေးရမလဲ?</p>
                     </div>
                     <div class="message-meta">
                         <span class="message-time">ယခု</span>
-                        <div class="message-actions">
-                            <button class="action-btn" aria-label="Copy"><i class="far fa-copy"></i></button>
-                            <button class="action-btn" aria-label="Like"><i class="far fa-thumbs-up"></i></button>
-                        </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Messages will be dynamically inserted here -->
         </main>
-
-        <!-- Input Area with Advanced Features -->
+        
+        <!-- Message Input Area -->
         <footer class="input-area">
-            <div class="input-toolbar">
-                <button class="tool-btn voice-btn" aria-label="Voice Input">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <button class="tool-btn attach-btn" aria-label="Attach File">
-                    <i class="fas fa-paperclip"></i>
-                </button>
-            </div>
+            <button class="tool-btn" id="attachBtn">
+                <i class="fas fa-paperclip"></i>
+            </button>
             
-            <div class="message-input-container">
-                <textarea id="messageInput" class="message-input" placeholder="စာရိုက်ထည့်ပါ..." rows="1"></textarea>
-                <div class="input-suggestions" id="inputSuggestions"></div>
-            </div>
+            <textarea id="messageInput" class="message-input" placeholder="စာရိုက်ထည့်ပါ..." rows="1"></textarea>
             
-            <div class="send-btn-container">
-                <button id="sendBtn" class="send-btn" aria-label="Send Message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
+            <button id="sendBtn" class="send-btn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
         </footer>
-
-        <!-- Bottom Navigation for Mobile -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item active" data-target="chat">
-                <i class="fas fa-comment-dots"></i>
-                <span>စကားပြော</span>
-            </a>
-            <a href="#" class="nav-item" data-target="history">
-                <i class="fas fa-history"></i>
-                <span>မှတ်တမ်း</span>
-            </a>
-            <a href="#" class="nav-item" data-target="settings">
-                <i class="fas fa-cog"></i>
-                <span>ချိန်ညှိမှု</span>
-            </a>
-        </nav>
     </div>
 
-    <!-- Modals and Overlays -->
-    <div class="modal-overlay" id="modalOverlay"></div>
-    
-    <!-- Voice Input Modal -->
-    <div class="modal" id="voiceModal">
-        <div class="modal-content">
-            <h3>စကားပြောပါ</h3>
-            <div class="voice-visualizer">
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-                <div class="voice-bar"></div>
-            </div>
-            <p class="voice-status">နားထောင်နေပါသည်...</p>
-            <button class="btn btn-secondary" id="cancelVoiceBtn">ပယ်ဖျက်မည်</button>
-        </div>
-    </div>
-
-    <!-- Service Worker Registration -->
     <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful');
-                    })
-                    .catch(err => {
-                        console.log('ServiceWorker registration failed: ', err);
-                    });
-            });
+        // DOM Elements
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        
+        // အချိန်ပြသခြင်း Function
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
         }
+        
+        // စာပို့ရန် Function
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message === '') return;
+            
+            // စာရိုက်သူ၏ Message ကိုပြသခြင်း
+            addMessage(message, 'user');
+            messageInput.value = '';
+            
+            // AI ၏တုန့်ပြန်မှုကိုပြသခြင်း
+            showTypingIndicator();
+            
+            // AI တုန့်ပြန်မှုအတုယူခြင်း (တကယ့် API နှင့်ချိတ်ဆက်ရန်လိုအပ်ပါသည်)
+            setTimeout(() => {
+                removeTypingIndicator();
+                const responses = [
+                    "ကျေးဇူးပြု၍ မေးခွန်းမေးပါ။",
+                    "ကျွန်တော်နားမလည်သေးပါ၊ ရှင်းရှင်းလင်းလင်းမေးပါ။",
+                    "ဒီမေးခွန်းကိုဖြေဖို့ ပျော်ရွှင်ပါတယ်!",
+                    "ကျေးဇူးပြု၍ နောက်ထပ်အသေးစိတ်မေးပါ။"
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, 'ai');
+            }, 1500);
+        }
+        
+        // Message ထည့်သွင်းခြင်း Function
+        function addMessage(text, sender) {
+            const messageGroup = document.createElement('div');
+            messageGroup.className = 'message-group';
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `message-bubble ${sender}-message`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = `<p>${text}</p>`;
+            
+            const messageMeta = document.createElement('div');
+            messageMeta.className = 'message-meta';
+            messageMeta.innerHTML = `<span class="message-time">${getCurrentTime()}</span>`;
+            
+            messageBubble.appendChild(messageContent);
+            messageBubble.appendChild(messageMeta);
+            messageGroup.appendChild(messageBubble);
+            chatContainer.appendChild(messageGroup);
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // Typing Indicator ပြသခြင်း
+        function showTypingIndicator() {
+            const typingGroup = document.createElement('div');
+            typingGroup.className = 'message-group';
+            
+            const typingBubble = document.createElement('div');
+            typingBubble.className = 'message-bubble ai-message typing-indicator';
+            typingBubble.id = 'typingIndicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'typing-dot';
+                typingBubble.appendChild(dot);
+            }
+            
+            typingGroup.appendChild(typingBubble);
+            chatContainer.appendChild(typingGroup);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // Typing Indicator ဖယ်ရှားခြင်း
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.parentElement.remove();
+            }
+        }
+        
+        // Event Listeners
+        sendBtn.addEventListener('click', sendMessage);
+        
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Textarea Auto-resize
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
     </script>
-
-    <!-- Main App Script -->
-    <script type="module" src="js/app.js"></script>
 </body>
 </html>
