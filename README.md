@@ -1,10 +1,10 @@
-# My Fullstack AI App
+# Smart Burme AI App
 
 This is a monorepo containing a React frontend (client) and a Node.js backend (server) for a Smart Burme AI application.
 
 ## Project Structure
 ```
-my-fullstack-ai-app/
+smart-burme-ai-app/
 ├── client/ # React Frontend Application
 ├── server/ # Node.js Backend Application
 ├── .gitignore # Root-level Git ignore rules
@@ -21,8 +21,8 @@ my-fullstack-ai-app/
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Smartburme/my-fullstack-ai-app.git # သင်၏ Repo URL
-    cd my-fullstack-ai-app
+    git clone https://github.com/Smartburme/smart-burme-ai-app.git # သင်၏ Repo URL
+    cd smart-burme-ai-app
     ```
 
 2.  **Install Frontend dependencies:**
