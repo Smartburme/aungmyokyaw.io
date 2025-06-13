@@ -1,28 +1,38 @@
 {
-  "name": "smart-burme-ai-backend",
+  "name": "smart-burme-ai-frontend",
   "version": "1.0.0",
-  "description": "Backend server for Smart Burme AI application",
-  "main": "server.js",
+  "private": true,  // Monorepo အတွင်းက client/server မှာ private: true ထည့်လေ့ရှိ
+  "description": "Frontend for Smart Burme AI Chatbot with Voice Input/Output",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node server.js",  
-    "dev": "nodemon server.js"  
+    "start": "react-scripts start",  <-- ဒီနေရာကို သေချာစစ်/ပြင်
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "keywords": [
-    "node.js",
-    "express",
-    "ai",
-    "backend",
-    "burmese"
-  ],
-  "author": "Smartburme",
-  "license": "MIT",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "openai": "^4.47.1"  
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+    // react-router-dom ကို သုံးရင် ဒီမှာ ထပ်ထည့်ရပါမယ်။ ဥပမာ: "react-router-dom": "^6.23.1"
   },
-  "devDependencies": {
-    "nodemon": "^3.1.2" 
+  "devDependencies": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
