@@ -1,4 +1,5 @@
 # smart-burme-ai 
+```
 my-fullstack-ai-app/  <-- ဒါက GitHub repository ရဲ့ root ဖြစ်လာမယ်
 ├── client/           <-- ဒီထဲမှာ သင်ရဲ့ smart-burme-ai (React) project code တွေအကုန်လုံး
 │   ├── public/
