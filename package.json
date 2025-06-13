@@ -2,7 +2,7 @@
   "name": "smart-burme-ai",
   "version": "1.0.0",
   "description": "Myanmar AI Chatbot",
-  "author": "Aung Myo Kyaw <aung.thuyrain.at449@gmail.com>",  // 👈 Email ထည့်ပြီး
+  "author": "Aung Myo Kyaw <aung.thuyrain.at449@gmail.com>",
   "scripts": {
     "start": "node server.js"
   },
