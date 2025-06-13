@@ -1,11 +1,11 @@
 {
   "name": "smart-burme-ai-frontend",
   "version": "1.0.0",
-  "private": true,  // Monorepo အတွင်းက client/server မှာ private: true ထည့်လေ့ရှိ
+  "private": true,
   "description": "Frontend for Smart Burme AI Chatbot with Voice Input/Output",
   "main": "src/index.js",
   "scripts": {
-    "start": "react-scripts start",  <-- ဒီနေရာကို သေချာစစ်/ပြင်
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
