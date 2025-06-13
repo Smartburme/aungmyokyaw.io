@@ -4,7 +4,7 @@
   "description": "Backend server for Smart Burme AI application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",  <-- ဒီနေရာကို အဓိကထားကြည့်ပါ
+    "start": "node server.js",  
     "dev": "nodemon server.js"  
   },
   "keywords": [
@@ -20,9 +20,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "openai": "^4.47.1"  // OpenAI API ကို တကယ်သုံးမယ်ဆိုရင် လိုအပ်ပါမယ်
+    "openai": "^4.47.1"  
   },
   "devDependencies": {
-    "nodemon": "^3.1.2" // Development မှာ server auto restart လုပ်ဖို့
+    "nodemon": "^3.1.2" 
   }
 }
