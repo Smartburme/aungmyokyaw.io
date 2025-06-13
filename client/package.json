@@ -1,36 +1,28 @@
 {
-  "name": "smart-burme-ai",
+  "name": "smart-burme-ai-backend",
   "version": "1.0.0",
-  "description": "A Smart Burme AI Chatbot with Voice Input/Output",
-  "main": "src/index.js",
+  "description": "Backend server for Smart Burme AI application",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",   <-- ဒီနေရာကို သေချာပြင်ပါ
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js",  <-- ဒီနေရာကို အဓိကထားကြည့်ပါ
+    "dev": "nodemon server.js"  
   },
+  "keywords": [
+    "node.js",
+    "express",
+    "ai",
+    "backend",
+    "burmese"
+  ],
+  "author": "Smartburme",
+  "license": "MIT",
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "openai": "^4.47.1"  // OpenAI API ကို တကယ်သုံးမယ်ဆိုရင် လိုအပ်ပါမယ်
   },
-  "devDependencies": {},
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "nodemon": "^3.1.2" // Development မှာ server auto restart လုပ်ဖို့
   }
 }
