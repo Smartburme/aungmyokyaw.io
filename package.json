@@ -1,12 +1,36 @@
 {
   "name": "smart-burme-ai",
   "version": "1.0.0",
-  "description": "Myanmar AI Chatbot",
-  "author": "Aung Myo Kyaw <aung.thuyrain.at449@gmail.com>",
+  "description": "A Smart Burme AI Chatbot with Voice Input/Output",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "react-scripts start",   <-- ဒီနေရာကို သေချာပြင်ပါ
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
