@@ -1,3 +1,5 @@
+# structure 
+```
 smart-burme-ai/
 ├── public/
 │   ├── index.html
