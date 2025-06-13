@@ -2,17 +2,14 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Burme AI Chat</title>
     
-    <!-- Fonts & Icons -->
+    <!-- Unicode Myanmar Font -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
@@ -24,7 +21,6 @@
             --accent-yellow: #F4D03F;
             --text-dark: #2C3E50;
             --text-light: #F5F5F5;
-            --bg-gradient: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
         }
         
         * {
@@ -32,24 +28,13 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Noto Sans Myanmar', sans-serif;
-            transition: all 0.3s ease;
         }
         
         body {
             background-color: #F5F5F5;
             color: var(--text-dark);
             line-height: 1.8;
-        }
-        
-        /* 3D Floating Effect */
-        .floating {
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        
-        .floating:hover {
-            transform: translateY(-5px) rotateX(5deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            unicode-bidi: plaintext;
         }
         
         /* App Container */
@@ -60,123 +45,103 @@
             flex-direction: column;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 0 20px rgba(46, 139, 87, 0.1);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
             position: relative;
             overflow: hidden;
         }
         
         /* Header */
         .app-header {
-            background: var(--bg-gradient);
-            color: var(--text-light);
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 100;
+        }
+        
+        .app-title {
+            font-size: 1.2rem;
+            font-weight: 700;
         }
         
         .header-btn {
-            background: rgba(255,255,255,0.2);
+            background: none;
             border: none;
             color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
             font-size: 1.2rem;
+            cursor: pointer;
         }
         
         /* Chat Area */
         .chat-container {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             background-color: #F9F9F9;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Noto Sans Myanmar" font-size="10" fill="rgba(46, 139, 87, 0.05)">Smart Burme</text></svg>');
         }
         
         /* Message Bubbles */
         .message-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             clear: both;
         }
         
         .message-bubble {
             max-width: 80%;
-            padding: 15px;
+            padding: 12px 16px;
             border-radius: 18px;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             position: relative;
             word-wrap: break-word;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .ai-message {
-            background: white;
+            background-color: white;
             float: left;
-            border-top-left-radius: 5px;
             border: 1px solid var(--light-green);
         }
         
         .user-message {
-            background: var(--bg-gradient);
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
             color: white;
             float: right;
-            border-top-right-radius: 5px;
         }
         
         /* Input Area */
         .input-area {
-            padding: 15px;
-            background: white;
+            padding: 12px 16px;
+            background-color: white;
             border-top: 1px solid #eee;
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        
-        .message-input-container {
-            flex: 1;
-            position: relative;
         }
         
         .message-input {
-            width: 100%;
+            flex: 1;
             border: 2px solid var(--light-green);
-            border-radius: 25px;
+            border-radius: 24px;
             padding: 12px 50px 12px 20px;
             font-size: 1rem;
             resize: none;
-            max-height: 150px;
+            max-height: 120px;
             outline: none;
-            box-shadow: 0 2px 10px rgba(46, 139, 87, 0.1);
-        }
-        
-        .message-input:focus {
-            border-color: var(--primary-green);
-            box-shadow: 0 2px 15px rgba(46, 139, 87, 0.2);
         }
         
         .send-btn {
             position: absolute;
-            right: 10px;
-            bottom: 10px;
-            background: var(--bg-gradient);
+            right: 25px;
+            bottom: 20px;
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 1.2rem;
         }
         
         /* Responsive Design */
@@ -187,51 +152,29 @@
                 margin: 5vh auto;
                 border-radius: 15px;
             }
-            
-            .message-bubble {
-                max-width: 70%;
-            }
-        }
-        
-        /* Mobile Specific */
-        @media (max-width: 480px) {
-            .app-header {
-                padding: 12px 15px;
-            }
-            
-            .chat-container {
-                padding: 15px;
-            }
-            
-            .message-input {
-                padding: 10px 45px 10px 15px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="app-container floating">
+    <div class="app-container">
         <!-- App Header -->
         <header class="app-header">
-            <button class="header-btn" id="menuBtn" onclick="window.location.href='/menu.html'">
+            <button class="header-btn" id="menuBtn">
                 <i class="fas fa-bars"></i>
             </button>
             <h1 class="app-title">Smart Burme AI</h1>
-            <button class="header-btn" id="profileBtn" onclick="window.location.href='/user.html'">
+            <button class="header-btn" id="profileBtn">
                 <i class="fas fa-user"></i>
             </button>
         </header>
         
         <!-- Chat Messages Container -->
         <main class="chat-container" id="chatContainer">
-            <!-- Welcome Message -->
+            <!-- Welcome Message in Unicode Myanmar -->
             <div class="message-group">
-                <div class="message-bubble ai-message floating">
+                <div class="message-bubble ai-message">
                     <div class="message-content">
-                        <p>မင်္ဂလာပါ! Smart Burme AI Chat မှကြိုဆိုပါတယ်။ ဘယ်လိုကူညီပေးရမလဲ?</p>
-                    </div>
-                    <div class="message-meta">
-                        <span class="message-time">ယခု</span>
+                        <p>မင်္ဂလာပါ! Smart Burme AI မှကြိုဆိုပါတယ်။ ဘယ်လိုကူညီပေးရမလဲ?</p>
                     </div>
                 </div>
             </div>
@@ -239,102 +182,56 @@
         
         <!-- Message Input Area -->
         <footer class="input-area">
-            <button class="header-btn" id="attachBtn">
-                <i class="fas fa-paperclip"></i>
-            </button>
-            
-            <div class="message-input-container">
-                <textarea id="messageInput" class="message-input floating" placeholder="စာရိုက်ထည့်ပါ..." rows="1"></textarea>
-                <button id="sendBtn" class="send-btn floating">
+            <div style="position: relative; flex: 1;">
+                <textarea id="messageInput" class="message-input" placeholder="စာရိုက်ထည့်ပါ..." rows="1"></textarea>
+                <button id="sendBtn" class="send-btn">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
-            
-            <button class="header-btn" id="voiceBtn">
-                <i class="fas fa-microphone"></i>
-            </button>
         </footer>
     </div>
 
-    <!-- Firebase Configuration -->
-    <script src="/firebase.config.js"></script>
-    
-    <!-- Main App Script -->
     <script>
         // DOM Elements
         const chatContainer = document.getElementById('chatContainer');
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
         
-        // Initialize Firebase
-        function initializeFirebase() {
-            // Configuration from firebase.config.js
-            if (typeof firebaseConfig !== 'undefined') {
-                firebase.initializeApp(firebaseConfig);
-                console.log("Firebase initialized successfully");
-            } else {
-                console.error("Firebase configuration not found");
-            }
-        }
-        
         // Send Message Function
-        async function sendMessage() {
+        function sendMessage() {
             const message = messageInput.value.trim();
-            if (!message) return;
+            if (message === '') return;
             
-            // Add user message to chat
+            // Add user message
             addMessage(message, 'user');
             messageInput.value = '';
             
-            // Show typing indicator
-            showTypingIndicator();
-            
-            try {
-                // Get AI response (simulated)
-                const aiResponse = await getAIResponse(message);
-                addMessage(aiResponse, 'ai');
-            } catch (error) {
-                console.error("Error getting AI response:", error);
-                addMessage("တောင်းပန်ပါတယ်၊ အချိန်အနည်းငယ်စောင့်ပါ...", 'ai');
-            }
-        }
-        
-        // Simulated AI Response
-        async function getAIResponse(message) {
-            // In a real app, this would call your backend or Firebase function
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    const responses = [
-                        "ကျေးဇူးပြု၍ မေးခွန်းမေးပါ။",
-                        "ကျွန်တော်နားမလည်သေးပါ၊ ရှင်းရှင်းလင်းလင်းမေးပါ။",
-                        "ဒီမေးခွန်းကိုဖြေဖို့ ပျော်ရွှင်ပါတယ်!",
-                        "ကျေးဇူးပြု၍ နောက်ထပ်အသေးစိတ်မေးပါ။"
-                    ];
-                    resolve(responses[Math.floor(Math.random() * responses.length)]);
-                }, 1500);
-            });
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "ကျေးဇူးပြု၍ မေးခွန်းမေးပါ။",
+                    "ကျွန်တော်နားမလည်သေးပါ၊ ရှင်းရှင်းလင်းလင်းမေးပါ။",
+                    "ဒီမေးခွန်းကိုဖြေဖို့ ပျော်ရွှင်ပါတယ်!",
+                    "ကျေးဇူးပြု၍ နောက်ထပ်အသေးစိတ်မေးပါ။"
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage(randomResponse, 'ai');
+            }, 1000);
         }
         
         // Add message to chat
         function addMessage(text, sender) {
-            removeTypingIndicator();
-            
             const messageGroup = document.createElement('div');
             messageGroup.className = 'message-group';
             
             const messageBubble = document.createElement('div');
-            messageBubble.className = `message-bubble ${sender}-message floating`;
+            messageBubble.className = `message-bubble ${sender}-message`;
             
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
-            messageContent.innerHTML = `<p>${formatMyanmarText(text)}</p>`;
-            
-            const messageMeta = document.createElement('div');
-            messageMeta.className = 'message-meta';
-            messageMeta.innerHTML = `<span>${getCurrentTime()}</span>`;
+            messageContent.innerHTML = `<p>${text}</p>`;
             
             messageBubble.appendChild(messageContent);
-            messageBubble.appendChild(messageMeta);
             messageGroup.appendChild(messageBubble);
             chatContainer.appendChild(messageGroup);
             
@@ -342,50 +239,9 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
         
-        // Format Myanmar text (fix character order)
-        function formatMyanmarText(text) {
-            return text.replace(/([က-အ])([့်])/g, '$2$1');
-        }
-        
-        // Get current time in HH:MM format
-        function getCurrentTime() {
-            const now = new Date();
-            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-        }
-        
-        // Typing indicator
-        function showTypingIndicator() {
-            const typingGroup = document.createElement('div');
-            typingGroup.className = 'message-group';
-            
-            const typingBubble = document.createElement('div');
-            typingBubble.className = 'message-bubble ai-message typing-indicator';
-            typingBubble.id = 'typingIndicator';
-            
-            for (let i = 0; i < 3; i++) {
-                const dot = document.createElement('span');
-                dot.className = 'typing-dot';
-                typingBubble.appendChild(dot);
-            }
-            
-            typingGroup.appendChild(typingBubble);
-            chatContainer.appendChild(typingGroup);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-        
-        function removeTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) indicator.parentElement.remove();
-        }
-        
-        // Auto-resize textarea
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-        
         // Event Listeners
         sendBtn.addEventListener('click', sendMessage);
+        
         messageInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -393,8 +249,20 @@
             }
         });
         
-        // Initialize Firebase when DOM loads
-        document.addEventListener('DOMContentLoaded', initializeFirebase);
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+        
+        // Menu and Profile buttons
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            window.location.href = '/menu.html';
+        });
+        
+        document.getElementById('profileBtn').addEventListener('click', () => {
+            window.location.href = '/user.html';
+        });
     </script>
 </body>
 </html>
