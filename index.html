@@ -2,42 +2,144 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Smart Burme AI Chat</title>
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
-    <div class="loading-container" id="loadingContainer">
-        <div class="loading-spinner"></div>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <div class="splash-content">
+            <img src="assets/logo.png" alt="Smart Burme Logo" class="splash-logo">
+            <div class="splash-spinner"></div>
+        </div>
     </div>
 
-    <div class="app-frame">
-        <!-- Header -->
-        <header class="header">
-            <i class="fas fa-home home-icon"></i>
-            <h1 class="app-title">Smart Burme Ai</h1>
-            <div class="profile-avatar">
-                <img src="https://via.placeholder.com/40x40?text=User" alt="သူတို့ဓာတ်ပုံ">
-            </div>
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Header with Gradient -->
+        <header class="app-header">
+            <button class="header-btn menu-btn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="app-title">
+                <span class="app-logo">Smart Burme</span>
+                <span class="ai-badge">AI</span>
+            </h1>
+            <button class="header-btn profile-btn" aria-label="Profile">
+                <div class="avatar">
+                    <img src="assets/default-avatar.png" alt="User Profile" class="avatar-img">
+                    <span class="online-status"></span>
+                </div>
+            </button>
         </header>
 
-        <!-- Chat display -->
-        <div class="chat-display">
-            <p class="initial-message">ကျွန်တော်ဘာကူညီပေးရမလဲ?</p>
-        </div>
+        <!-- Chat Area -->
+        <main class="chat-container" id="chatContainer">
+            <!-- Welcome Message -->
+            <div class="message-group welcome-message">
+                <div class="message-bubble ai-message">
+                    <div class="message-content">
+                        <p>မင်္ဂလာပါ! Smart Burme AI Chat မှကြိုဆိုပါတယ်။ ကျွန်တော်ဘာကူညီပေးရမလဲ?</p>
+                    </div>
+                    <div class="message-meta">
+                        <span class="message-time">ယခု</span>
+                        <div class="message-actions">
+                            <button class="action-btn" aria-label="Copy"><i class="far fa-copy"></i></button>
+                            <button class="action-btn" aria-label="Like"><i class="far fa-thumbs-up"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Messages will be dynamically inserted here -->
+        </main>
 
-        <!-- Input section -->
-        <footer class="input-section">
-            <div class="input-container">
-                <i class="fas fa-thumbtack pin-icon"></i>
-                <input type="text" class="message-input" placeholder="စာရိုက်ထည့်ပါ...">
-                <i class="fas fa-paper-plane send-icon"></i>
+        <!-- Input Area with Advanced Features -->
+        <footer class="input-area">
+            <div class="input-toolbar">
+                <button class="tool-btn voice-btn" aria-label="Voice Input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="tool-btn attach-btn" aria-label="Attach File">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+            </div>
+            
+            <div class="message-input-container">
+                <textarea id="messageInput" class="message-input" placeholder="စာရိုက်ထည့်ပါ..." rows="1"></textarea>
+                <div class="input-suggestions" id="inputSuggestions"></div>
+            </div>
+            
+            <div class="send-btn-container">
+                <button id="sendBtn" class="send-btn" aria-label="Send Message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </footer>
+
+        <!-- Bottom Navigation for Mobile -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="chat">
+                <i class="fas fa-comment-dots"></i>
+                <span>စကားပြော</span>
+            </a>
+            <a href="#" class="nav-item" data-target="history">
+                <i class="fas fa-history"></i>
+                <span>မှတ်တမ်း</span>
+            </a>
+            <a href="#" class="nav-item" data-target="settings">
+                <i class="fas fa-cog"></i>
+                <span>ချိန်ညှိမှု</span>
+            </a>
+        </nav>
     </div>
 
+    <!-- Modals and Overlays -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    
+    <!-- Voice Input Modal -->
+    <div class="modal" id="voiceModal">
+        <div class="modal-content">
+            <h3>စကားပြောပါ</h3>
+            <div class="voice-visualizer">
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+                <div class="voice-bar"></div>
+            </div>
+            <p class="voice-status">နားထောင်နေပါသည်...</p>
+            <button class="btn btn-secondary" id="cancelVoiceBtn">ပယ်ဖျက်မည်</button>
+        </div>
+    </div>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Main App Script -->
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
