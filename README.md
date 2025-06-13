@@ -21,8 +21,8 @@ smart-burme-ai-app/
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/Smartburme/smart-burme-ai-app.git # သင်၏ Repo URL
-    cd smart-burme-ai-app
+    git clone https://github.com/Smartburme/smart-burme-ai.git # သင်၏ Repo URL
+    cd smart-burme-ai
     ```
 
 2.  **Install Frontend dependencies:**
