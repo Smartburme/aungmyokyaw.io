@@ -1,74 +1,96 @@
-# Smart Burme AI Chat - မြန်မာစာဖြင့် AI Chatbot
+# Smart Burme AI Chat
 
-![Smart Burme AI Logo](https://via.placeholder.com/150x50?text=Smart+Burme+AI)
+## မိတ်ဆက်
 
-## 📝 မိတ်ဆက်
-Smart Burme AI Chat သည် မြန်မာဘာသာစကားဖြင့် အလိုအလျောက်စကားပြောနိုင်သော AI Chatbot Application တစ်ခုဖြစ်ပါသည်။
+Smart Burme AI Chat သည် မြန်မာဘာသာဖြင့် အဆင်ပြေစွာစကားပြောနိုင်သော AI Chat Application တစ်ခုဖြစ်ပါသည်။
 
-## ✨ အထူးလုပ်ဆောင်ချက်များ
-- မြန်မာဘာသာဖြင့် အပြန်အလှန်ဆက်သွယ်နိုင်ခြင်း
-- OpenAI API နှင့် ချိတ်ဆက်အသုံးပြုထားခြင်း
-- ရိုးရှင်းသော အင်တာဖေ့စ်ဒီဇိုင်း
-- Responsive Design (Mobile/Desktop)
+## အဓိကလုပ်ဆောင်ချက်များ
 
-## 🛠️ လိုအပ်သော အချက်များ
+- မြန်မာဘာသာဖြင့် AI နှင့်စကားပြောနိုင်ခြင်း
+- Web နှင့် Mobile နှစ်မျိုးလုံးတွင် အသုံးပြုနိုင်ခြင်း
+- Dark/Light Mode ပြောင်းလဲအသုံးပြုနိုင်ခြင်း
+- အသံဖြင့်လည်းမေးမြန်းနိုင်ခြင်း
+
+## စတင်အသုံးပြုနည်း
+
+### လိုအပ်သော Software များ
 - Node.js v16+
 - npm v8+
-- OpenAI API Key
 
-## ⚙️ ထည့်သွင်းအသုံးပြုနည်း
-1. **Repository Clone လုပ်ပါ**
+### Installation
+
+1. Repository ကို clone လုပ်ပါ:
 ```bash
 git clone https://github.com/yourusername/smart-burme-ai.git
+```
+
+2. Project folder ထဲသို့ဝင်ပါ:
+```bash
 cd smart-burme-ai
 ```
 
-2. **Dependencies တင်ပါ**
+3. Dependency များတင်ပါ:
 ```bash
 npm install
 ```
 
-3. **Environment Setup**
+4. Development server စတင်ပါ:
 ```bash
-echo "your_openai_api_key_here" > api_key.txt
+npm run dev
 ```
 
-4. **Application စတင်ပါ**
-```bash
-npm start
+5. Browser တွင် ဖွင့်ပါ:
+```
+http://localhost:3000
 ```
 
-## 🌐 Deploy on Render
-1. Render Dashboard တွင် New Web Service ရွေးပါ
-2. GitHub Repository ချိတ်ပါ
-3. Environment Variables ထည့်ပါ:
-   - `OPENAI_API_KEY=your_api_key_here`
-4. Deploy လုပ်ပါ
+## Build လုပ်နည်း
 
-## 📂 File Structure
+Production အတွက် build လုပ်ရန်:
+```bash
+npm run build
+```
+
+## Project Structure
+
 ```
 smart-burme-ai/
-├── package.json
-├── server.js
-├── api_key.txt
-├── index.html
-├── css/
-│   └── styles.css
-└── js/
-    ├── app.js
-    └── api.js
+├── public/          # Static files
+├── src/             # Source code
+│   ├── assets/      # Images, fonts
+│   ├── components/  # UI components
+│   ├── styles/      # CSS files
+│   ├── utils/       # Utility functions
+│   └── ...          # Other source files
+├── package.json     # Project configuration
+└── ...              # Other config files
 ```
 
-## 👨‍💻 Developer
-- **Aung Myo Kyaw**
-- Email: [aung.thuyrain.at449@gmail.com](mailto:aung.thuyrain.at449@gmail.com)
-- GitHub: [yourusername](https://github.com/yourusername)
+## ပံ့ပိုးကူညီရန်
 
-## 📜 License
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## လိုင်စင်
+
 MIT License
+
+## အဆက်အသွယ်
+
+Developer Name - developer@smartburme.com
 
 ---
 
-> **Note**: `api_key.txt` ဖိုင်ကို GitHub သို့ upload မလုပ်ပါနှင့်။ `.gitignore` ဖိုင်တွင် ထည့်သွင်းထားပါသည်။
+### မြန်မာဘာသာဖြင့်
 
-![Demo Screenshot](https://via.placeholder.com/600x400?text=Smart+Burme+AI+Demo)
+Smart Burme AI Chat ကို အသုံးပြုရန်:
+
+1. Project ကို download လုပ်ပါ
+2. `npm install` ဖြင့် dependency များတင်ပါ
+3. `npm start` ဖြင့် application စတင်ပါ
+4. Browser တွင် `localhost:3000` ဖွင့်ပါ
+
+မည်သည့်ပြဿနာတွေ့ပါက issue ရေးသားနိုင်ပါသည်။
