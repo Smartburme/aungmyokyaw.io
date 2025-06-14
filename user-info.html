@@ -1,53 +1,65 @@
-<!DOCTYPE html>
-<html lang="my">
+<!DOCTYPE html><html lang="my">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>User Info & History</title>
-  <style>
-    body {
-      background: #121212;
-      color: #00f0ff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 1rem;
-    }
-    #history {
-      max-height: 300px;
-      overflow-y: auto;
-      background: #222;
-      padding: 1rem;
-      border-radius: 12px;
-      margin-top: 1rem;
-      color: #ddd;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Info - Smart Burme</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>User Information</h2>
-  <div id="userProfile">
-    <p>Username: <span id="username">Guest</span></p>
-    <p>Email: <span id="email">Not logged in</span></p>
+  <div class="user-info-container">
+    <header class="menu-header">
+      <a href="index.html" class="icon-button">🔙</a>
+      <h2>အသုံးပြုသူအချက်အလက်</h2>
+    </header><section class="user-info-section">
+  <div class="user-card">
+    <h3>🙍‍♂️ အသုံးပြုသူအမည်</h3>
+    <input type="text" id="username" placeholder="သင့်အမည်ရေးပါ">
+    <button onclick="saveUsername()">သိမ်းမည်</button>
   </div>
 
-  <h3>Chat History</h3>
-  <div id="history"></div>
+  <div class="user-card">
+    <h3>🕘 နောက်ဆုံး Chat</h3>
+    <div id="lastChatHistory"></div>
+  </div>
 
-  <script>
-    // Load chat history from localStorage
-    const historyEl = document.getElementById('history');
-    const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+  <div class="user-card">
+    <h3>🖼️ နောက်ဆုံး ဖန်တီး/တင်ထားသော ပုံ</h3>
+    <div id="imagePreview"></div>
+  </div>
 
-    if(history.length === 0) {
-      historyEl.textContent = 'Chat history is empty.';
-    } else {
-      history.forEach(item => {
-        const p = document.createElement('p');
-        p.textContent = `${item.role}: ${item.content}`;
-        historyEl.appendChild(p);
-      });
+  <div class="user-card">
+    <h3>🧠 API Key</h3>
+    <input type="password" id="apiKey" placeholder="OpenAI API Key">
+    <button onclick="saveApiKey()">သိမ်းမည်</button>
+  </div>
+</section>
+
+  </div>  <script>
+    function saveUsername() {
+      const name = document.getElementById('username').value;
+      if (name) {
+        localStorage.setItem('username', name);
+        alert('သိမ်းပြီးပါပြီ။');
+      }
     }
 
-    // TODO: Load actual user info from Firebase Auth if logged in
-  </script>
-</body>
+    function saveApiKey() {
+      const key = document.getElementById('apiKey').value;
+      if (key) {
+        localStorage.setItem('OPENAI_API_KEY', key);
+        alert('API KEY သိမ်းပြီးပါပြီ။');
+      }
+    }
+
+    window.onload = () => {
+      const name = localStorage.getItem('username');
+      if (name) document.getElementById('username').value = name;
+
+      const chat = localStorage.getItem('chatHistory');
+      if (chat) document.getElementById('lastChatHistory').innerText = chat;
+
+      const image = localStorage.getItem('uploadedImage') || localStorage.getItem('lastGeneratedImage');
+      if (image) document.getElementById('imagePreview').innerHTML = `<img src="${image}" alt="user image">`;
+    }
+  </script></body>
 </html>
