@@ -2,21 +2,43 @@
 <html lang="my">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Smart Burme AI Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Burme AI</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>Smart Burme AI Chat</header>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <button id="menuToggle" class="icon-button">☰</button>
+      <div class="brand-logo">🧠 Smart Burme</div>
+      <a href="user-info.html" class="icon-button">👤</a>
+    </header>
 
-  <main class="chat-container">
-    <div class="messages" id="messages"></div>
-    <div class="input-area">
-      <input id="inputMessage" type="text" placeholder="စာရိုက်ပြီး Enter နှိပ်ပါ..." autocomplete="off" />
-      <button id="sendBtn">ပို့မည်</button>
+    <!-- Welcome Banner -->
+    <section class="welcome-banner">
+      <div class="energy-glow"></div>
+      <h1>ပြန်လည်လာပါတယ်!</h1>
+      <p>ဘယ်အရာကို ကူညီပေးလိုပါသလဲ?</p>
+    </section>
+
+    <!-- Chat Box -->
+    <main class="chat-box" id="chatBox">
+      <!-- Chat messages will be appended here -->
+    </main>
+
+    <!-- Input Section -->
+    <footer class="input-section">
+      <input type="text" id="userInput" placeholder="မေးမြန်းချင်တာရေးပါ..." />
+      <button id="sendBtn">✉️</button>
+    </footer>
+
+    <!-- Feature Button -->
+    <div class="bottom-feature-bar">
+      <a href="menu.html" class="feature-button">📷 ပုံဖန်တီးရန်</a>
     </div>
-  </main>
+  </div>
 
-  <script src="app.js"></script>
+  <script src="app.js" type="module"></script>
 </body>
 </html>
