@@ -1,33 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="my">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Burme AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Smart Burme AI Chat</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js"></script>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Smart Burme</h1>
-    </header>
+  <header>Smart Burme AI Chat</header>
 
-    <section class="upload-section">
-      <input type="file" id="photoUpload" />
-      <button onclick="uploadPhoto()">Upload</button>
-    </section>
+  <main class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <input id="inputMessage" type="text" placeholder="စာရိုက်ပြီး Enter နှိပ်ပါ..." autocomplete="off" />
+      <button id="sendBtn">ပို့မည်</button>
+    </div>
+  </main>
 
-    <section class="generate-section">
-      <textarea id="prompt" placeholder="Enter your text to generate photo..."></textarea>
-      <button onclick="generatePhoto()">Generate</button>
-    </section>
-
-    <div id="result"></div>
-  </div>
-
-  <script src="firebase.config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
