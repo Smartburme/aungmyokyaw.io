@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Features Menu</title>
+  <style>
+    body {
+      background: #121212;
+      color: #00f0ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 1rem;
+    }
+    button {
+      background: #00f0ff;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      margin: 0.5rem;
+      border-radius: 12px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #00c4cc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Feature Menu</h2>
+  <button id="chatBtn">Chat</button>
+  <button id="photoGenBtn">Photo Generate</button>
+  <button id="uploadBtn">Photo Upload</button>
+
+  <script>
+    document.getElementById('chatBtn').addEventListener('click', () => {
+      alert('Chat feature selected');
+      // Implement feature switching logic here
+    });
+    document.getElementById('photoGenBtn').addEventListener('click', () => {
+      alert('Photo generate feature selected');
+    });
+    document.getElementById('uploadBtn').addEventListener('click', () => {
+      alert('Photo upload feature selected');
+    });
+  </script>
+</body>
+</html>
