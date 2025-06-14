@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to top, #111, #222);
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#app {
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+header h1 {
+  color: #FFD700;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  margin-top: 20px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+button {
+  background: #FFD700;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
