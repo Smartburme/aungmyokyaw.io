@@ -1,96 +1,36 @@
-/* style.css */
+/* 🌑 BuildHub-style Dark + Neon Yellow UI */
 
-/* BuildHub-like glowing dark theme */
+:root { --bg-color: #0d0d0d; --card-color: #1a1a1a; --text-color: #f5f5f5; --subtext-color: #bbbbbb; --highlight: #FFD700; --border-radius: 12px; --box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
 
-body {
-  background: #0e0e0e;
-  color: #ddd;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0; padding: 0;
-}
+body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background: var(--bg-color); color: var(--text-color); }
 
-header {
-  background: #121212;
-  padding: 1rem 2rem;
-  box-shadow: 0 0 15px #00f0ff;
-  color: #00f0ff;
-  font-weight: bold;
-  font-size: 1.5rem;
-  text-align: center;
-}
+.app-container, .menu-container, .user-info-container { display: flex; flex-direction: column; max-width: 600px; margin: auto; padding: 1rem; gap: 1rem; }
 
-.chat-container {
-  max-width: 720px;
-  margin: 2rem auto;
-  background: #181818;
-  border-radius: 12px;
-  box-shadow: 0 0 20px #00f0ffaa;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  height: 80vh;
-}
+.app-header, .menu-header { display: flex; justify-content: space-between; align-items: center; background: var(--card-color); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
 
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem;
-  border-radius: 12px;
-  background: #222;
-  margin-bottom: 1rem;
-}
+.brand-logo { font-size: 1.4rem; font-weight: bold; color: var(--highlight); }
 
-.message {
-  margin-bottom: 0.8rem;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  max-width: 70%;
-  word-wrap: break-word;
-}
+.icon-button { font-size: 1.2rem; background: transparent; border: none; color: var(--text-color); cursor: pointer; }
 
-.message.user {
-  background: #0080ff;
-  color: #fff;
-  align-self: flex-end;
-  box-shadow: 0 0 8px #0080ffaa;
-}
+.welcome-banner { text-align: center; background: linear-gradient(45deg, #1a1a1a, #222222); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
 
-.message.ai {
-  background: #00ffdd;
-  color: #000;
-  align-self: flex-start;
-  box-shadow: 0 0 8px #00ffddaa;
-}
+.chat-box { flex: 1; background: var(--card-color); border-radius: var(--border-radius); padding: 1rem; overflow-y: auto; max-height: 60vh; box-shadow: var(--box-shadow); }
 
-.input-area {
-  display: flex;
-  gap: 0.5rem;
-}
+.input-section { display: flex; gap: 0.5rem; }
 
-.input-area input[type="text"] {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border-radius: 20px;
-  border: none;
-  font-size: 1rem;
-  outline: none;
-  box-shadow: 0 0 8px #00f0ffaa inset;
-  background: #121212;
-  color: #fff;
-}
+.input-section input { flex: 1; padding: 0.75rem; border: none; border-radius: var(--border-radius); background: #222; color: var(--text-color); }
 
-.input-area button {
-  background: #00f0ff;
-  border: none;
-  border-radius: 20px;
-  padding: 0 1.5rem;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00f0ff;
-  transition: background 0.3s ease;
-}
+.input-section button { background: var(--highlight); color: #000; padding: 0.75rem 1rem; border-radius: var(--border-radius); border: none; cursor: pointer; font-weight: bold; }
 
-.input-area button:hover {
-  background: #00c4cc;
-}
+.bottom-feature-bar, .tool-card, .user-card { background: var(--card-color); padding: 1rem; border-radius: var(--border-radius); box-shadow: var(--box-shadow); margin-bottom: 1rem; }
+
+.feature-button { display: block; text-align: center; background: var(--highlight); color: #000; padding: 0.75rem; border-radius: var(--border-radius); text-decoration: none; font-weight: bold; }
+
+.tool-card input, .user-card input { width: 100%; padding: 0.5rem; border-radius: var(--border-radius); border: none; margin-top: 0.5rem; margin-bottom: 0.5rem; background: #222; color: white; }
+
+button:hover, .feature-button:hover { filter: brightness(1.2); }
+
+img { max-width: 100%; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+
+@media (max-width: 600px) { .app-container, .menu-container, .user-info-container { padding: 0.5rem; } .app-header, .menu-header { flex-direction: column; gap: 0.5rem; } }
+
