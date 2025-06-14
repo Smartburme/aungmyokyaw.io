@@ -1,102 +1,16 @@
-// app.js
+// 📦 Firebase Login / Upload / AI API Logic
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js';
-import { firebaseConfig } from './firebase.config.js';
+// Firebase သုံးရန် config import import { firebaseConfig } from './firebase.config.js'; import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"; import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"; import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const storage = getStorage(app);
+// Firebase Init const app = initializeApp(firebaseConfig); const auth = getAuth(app); const storage = getStorage(app);
 
-const provider = new GoogleAuthProvider();
+// Anonymous Login onAuthStateChanged(auth, user => { if (!user) signInAnonymously(auth); });
 
-const messagesEl = document.getElementById('messages');
-const inputMessage = document.getElementById('inputMessage');
-const sendBtn = document.getElementById('sendBtn');
+// 🔐 Get API key from localStorage function getApiKey() { return localStorage.getItem('OPENAI_API_KEY'); }
 
-let user = null;
+// 🧠 AI Chat export async function askAI(text) { const apiKey = getApiKey(); const response = await fetch("https://api.openai.com/v1/chat/completions", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": Bearer ${apiKey} }, body: JSON.stringify({ model: "gpt-4", messages: [{ role: "user", content: text }] }) }); const data = await response.json(); const reply = data.choices[0].message.content; localStorage.setItem('chatHistory', reply); return reply; }
 
-// Firebase Auth login
-async function login() {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    user = result.user;
-    addMessage('system', `Logged in as ${user.displayName}`);
-  } catch (error) {
-    console.error('Login error:', error);
-    addMessage('system', 'Login failed.');
-  }
-}
+// 📤 Upload Photo to Firebase export async function uploadImage(file) { const storageRef = ref(storage, 'uploads/' + file.name); const snapshot = await uploadBytes(storageRef, file); const downloadURL = await getDownloadURL(snapshot.ref); return downloadURL; }
 
-// Add message to chat
-function addMessage(role, text) {
-  const div = document.createElement('div');
-  div.className = 'message ' + (role === 'user' ? 'user' : (role === 'ai' ? 'ai' : 'system'));
-  div.textContent = text;
-  messagesEl.appendChild(div);
-  messagesEl.scrollTop = messagesEl.scrollHeight;
+// 🖼️ Text-to-Image using DALL·E export async function generateImage(prompt) { const apiKey = getApiKey(); const response = await fetch("https://api.openai.com/v1/images/generations", { method: "POST", headers: { "Content-Type": "application/json", "Authorization": Bearer ${apiKey} }, body: JSON.stringify({ model: "dall-e-3", prompt: prompt, n: 1, size: "512x512" }) }); const data = await response.json(); const url = data.data[0].url; localStorage.setItem('lastGeneratedImage', url); return url; }
 
-  // Save chat history in localStorage
-  saveMessageToLocal(role, text);
-}
-
-function saveMessageToLocal(role, text) {
-  let history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
-  history.push({ role, content: text });
-  localStorage.setItem('chatHistory', JSON.stringify(history));
-}
-
-// Send message handler
-async function sendMessage() {
-  const text = inputMessage.value.trim();
-  if(!text) return;
-  addMessage('user', text);
-  inputMessage.value = '';
-  inputMessage.disabled = true;
-  sendBtn.disabled = true;
-
-  try {
-    const aiReply = await getAIResponse(text);
-    addMessage('ai', aiReply);
-  } catch (err) {
-    addMessage('system', 'AI response error: ' + err.message);
-  }
-
-  inputMessage.disabled = false;
-  sendBtn.disabled = false;
-  inputMessage.focus();
-}
-
-// Call OpenAI API to get AI response
-async function getAIResponse(prompt) {
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`  // in real deployment, don't expose keys in frontend!
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-  if (!response.ok) throw new Error('Network response was not ok');
-  const data = await response.json();
-  return data.choices[0].message.content;
-}
-
-sendBtn.addEventListener('click', sendMessage);
-inputMessage.addEventListener('keydown', e => {
-  if (e.key === 'Enter') sendMessage();
-});
-
-// Optional: auto login on page load
-onAuthStateChanged(auth, u => {
-  user = u;
-  if (user) {
-    addMessage('system', `Welcome back, ${user.displayName}`);
-  } else {
-    login();
-  }
-});
