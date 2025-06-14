@@ -5,9 +5,6 @@
 # Text files
 *.txt
 
-# Node modules
-node_modules/
-
 # Log files
 *.log
 
