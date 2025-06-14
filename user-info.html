@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Info & History</title>
+  <style>
+    body {
+      background: #121212;
+      color: #00f0ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 1rem;
+    }
+    #history {
+      max-height: 300px;
+      overflow-y: auto;
+      background: #222;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-top: 1rem;
+      color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h2>User Information</h2>
+  <div id="userProfile">
+    <p>Username: <span id="username">Guest</span></p>
+    <p>Email: <span id="email">Not logged in</span></p>
+  </div>
+
+  <h3>Chat History</h3>
+  <div id="history"></div>
+
+  <script>
+    // Load chat history from localStorage
+    const historyEl = document.getElementById('history');
+    const history = JSON.parse(localStorage.getItem('chatHistory') || '[]');
+
+    if(history.length === 0) {
+      historyEl.textContent = 'Chat history is empty.';
+    } else {
+      history.forEach(item => {
+        const p = document.createElement('p');
+        p.textContent = `${item.role}: ${item.content}`;
+        historyEl.appendChild(p);
+      });
+    }
+
+    // TODO: Load actual user info from Firebase Auth if logged in
+  </script>
+</body>
+</html>
