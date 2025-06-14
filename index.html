@@ -3,366 +3,666 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Burme AI</title>
+    <title>Smart Burme AI - Enhanced</title>
     <style>
         :root {
-            --primary-color: #00f0ff;
-            --secondary-color: #ff00f0;
-            --accent-color: #f0ff00;
-            --dark-bg: #000000;
-            --text-normal: #ffffff;
+            --primary: #00f0ff;
+            --secondary: #ff00f0;
+            --accent: #f0ff00;
+            --dark: #0a0a0a;
+            --darker: #000000;
+            --text: #ffffff;
             --text-dim: #aaaaaa;
-            --glass-effect: rgba(0, 0, 0, 0.7);
-            --neon-glow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
+            --glass: rgba(15, 15, 15, 0.75);
+            --neon-glow: 0 0 10px var(--primary), 0 0 20px var(--secondary);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            background-color: var(--dark-bg);
-            color: var(--text-normal);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
+            background: radial-gradient(circle at center, var(--darker), var(--dark));
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 100vh;
             overflow-x: hidden;
         }
         
-        /* Floating 3D Effect */
-        .floating-3d {
+        /* Floating 3D Container */
+        #app {
+            perspective: 1000px;
             transform-style: preserve-3d;
-            animation: float 6s ease-in-out infinite;
+            min-height: 100vh;
+            display: flex;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
-            50% { transform: translateY(-20px) rotateX(5deg) rotateY(5deg); }
+        /* Sidebar - Enhanced */
+        .sidebar {
+            width: 280px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transform: translateZ(30px);
+            box-shadow: 5px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 10;
         }
         
-        /* Glass Morphism UI */
-        .glass-panel {
-            background: var(--glass-effect);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
-        }
-        
-        /* Neon Gradients */
-        .neon-text {
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             text-shadow: var(--neon-glow);
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            padding-left: 0.5rem;
+        }
+        
+        .menu {
+            flex-grow: 1;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--primary);
+            transform: translateX(-10px);
+            transition: var(--transition);
+            opacity: 0;
+        }
+        
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .menu-item.active {
+            background: rgba(0, 240, 255, 0.1);
+        }
+        
+        .menu-item.active::before {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .menu-item i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: var(--text-dim);
+        }
+        
+        .menu-item.active i {
+            color: var(--primary);
+        }
+        
+        .menu-item span {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        /* User Profile - Enhanced */
+        .user-info {
+            margin-top: auto;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        
+        .user-info:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        .user-name {
+            font-weight: 500;
+        }
+        
+        /* Main Content - Enhanced */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            transform: translateZ(0);
+        }
+        
+        /* Chat Interface - Enhanced */
+        .chat-container {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            height: calc(100vh - 4rem);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chat-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
+        
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            justify-content: flex-end;
+        }
+        
+        .message.ai {
+            justify-content: flex-start;
+        }
+        
+        .bubble {
+            max-width: 70%;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            font-size: 1rem;
+        }
+        
+        .message.user .bubble {
+            background: linear-gradient(135deg, var(--primary), rgba(0, 240, 255, 0.3));
+            border-bottom-right-radius: 4px;
+            color: white;
+        }
+        
+        .message.ai .bubble {
+            background: rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 4px;
+            color: var(--text);
+        }
+        
+        .chat-input-container {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .input-options {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .input-options button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .input-options button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--text);
+        }
+        
+        .chat-input {
+            flex-grow: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 20px;
+            padding: 0.8rem 1.5rem;
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: var(--dark);
+            font-weight: bold;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+        }
+        
+        /* Photo Upload Modal - Enhanced */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+        
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(0, 240, 255, 0.05);
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .upload-area p {
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-area img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        .modal-actions button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .cancel-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+        
+        .cancel-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .process-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            font-weight: 600;
+        }
+        
+        .process-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.4);
+        }
+        
+        /* Voice Interface - Enhanced */
+        .voice-interface {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            height: 100px;
+            margin-bottom: 2rem;
+        }
+        
+        .visualizer-bar {
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(to top, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transform-origin: bottom;
+        }
+        
+        .voice-control-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: var(--dark);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
+        }
+        
+        .voice-control-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.4);
+        }
+        
+        .voice-control-btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .voice-transcript {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-height: 100px;
+            color: var(--text-dim);
+            font-style: italic;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            #app {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 1rem;
+                flex-direction: row;
+                align-items: center;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+                margin-right: 1rem;
+                font-size: 1.5rem;
+            }
+            
+            .menu {
+                display: flex;
+                flex-grow: 1;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .menu-item {
+                margin-bottom: 0;
+                margin-right: 0.5rem;
+                white-space: nowrap;
+            }
+            
+            .user-info {
+                margin-top: 0;
+                margin-left: auto;
+                padding: 0.5rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .chat-container {
+                height: calc(100vh - 120px);
+            }
+            
+            .bubble {
+                max-width: 85%;
+            }
+        }
+        
+        /* Animations */
+        @keyframes equalize {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1.5); }
+        }
+        
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float-particle linear infinite;
+        }
+        
+        @keyframes float-particle {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 0.5; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Main App Container -->
-    <div id="app" class="floating-3d">
-        <!-- Sidebar Menu -->
-        <div class="sidebar glass-panel">
-            <div class="logo neon-text">Smart Burme AI</div>
+    <!-- Floating particles background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Main App Container with 3D effect -->
+    <div id="app">
+        <!-- Enhanced Sidebar -->
+        <div class="sidebar">
+            <div class="logo">Smart Burme AI</div>
+            
             <nav class="menu">
-                <ul>
-                    <li class="active"><i class="icon-chat"></i> Chat</li>
-                    <li><i class="icon-voice"></i> Voice</li>
-                    <li><i class="icon-photo"></i> Photo Upload</li>
-                    <li><i class="icon-settings"></i> Settings</li>
-                </ul>
+                <div class="menu-item active">
+                    <i class="fas fa-comment-dots"></i>
+                    <span>Chat</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-microphone"></i>
+                    <span>Voice</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-image"></i>
+                    <span>Photo Upload</span>
+                </div>
+                <div class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
             </nav>
+            
             <div class="user-info">
-                <div class="avatar"></div>
+                <div class="avatar">U</div>
                 <div class="user-name">User</div>
             </div>
         </div>
         
-        <!-- Main Content -->
+        <!-- Main Content Area -->
         <div class="main-content">
-            <!-- Chat Interface -->
-            <div class="chat-container glass-panel">
+            <!-- Enhanced Chat Interface -->
+            <div class="chat-container">
                 <div class="chat-header">
-                    <h2 class="neon-text">AI Assistant</h2>
+                    <h2>AI Assistant</h2>
                 </div>
+                
                 <div class="chat-messages" id="chat-messages">
-                    <!-- Messages will appear here -->
+                    <!-- Messages will be inserted here by JavaScript -->
                 </div>
+                
                 <div class="chat-input-container">
                     <div class="input-options">
-                        <button class="voice-btn"><i class="icon-mic"></i></button>
-                        <button class="upload-btn"><i class="icon-upload"></i></button>
+                        <button class="voice-btn" title="Voice Input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="upload-btn" title="Upload Image" id="open-upload">
+                            <i class="fas fa-image"></i>
+                        </button>
                     </div>
-                    <input type="text" class="chat-input" placeholder="Type your message...">
-                    <button class="send-btn"><i class="icon-send"></i></button>
+                    
+                    <input type="text" class="chat-input" placeholder="Type your message..." id="chat-input">
+                    
+                    <button class="send-btn" id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
             
-            <!-- Photo Upload Modal -->
-            <div class="modal photo-upload-modal">
-                <div class="modal-content glass-panel">
-                    <h3 class="neon-text">Upload Photo</h3>
+            <!-- Enhanced Photo Upload Modal -->
+            <div class="modal" id="photo-upload-modal">
+                <div class="modal-content">
+                    <h3>Upload Photo</h3>
+                    
                     <div class="upload-area" id="drop-zone">
-                        <i class="icon-cloud-upload"></i>
+                        <i class="fas fa-cloud-upload-alt"></i>
                         <p>Drag & drop your photo here or click to browse</p>
                         <input type="file" id="file-input" accept="image/*">
                     </div>
+                    
                     <div class="modal-actions">
-                        <button class="cancel-btn">Cancel</button>
-                        <button class="process-btn neon-text">Process Image</button>
+                        <button class="cancel-btn" id="cancel-upload">Cancel</button>
+                        <button class="process-btn">Process Image</button>
                     </div>
                 </div>
             </div>
             
-            <!-- Voice Interface -->
-            <div class="voice-interface glass-panel">
+            <!-- Enhanced Voice Interface -->
+            <div class="voice-interface" id="voice-interface">
                 <div class="visualizer" id="visualizer">
-                    <!-- Voice visualization will appear here -->
+                    <!-- Voice visualization bars will be added by JavaScript -->
                 </div>
-                <button class="voice-control-btn neon-text" id="voice-control">
-                    <i class="icon-mic"></i> Start Listening
+                
+                <button class="voice-control-btn" id="voice-control">
+                    <i class="fas fa-microphone"></i> Start Listening
                 </button>
+                
                 <div class="voice-transcript" id="voice-transcript">
-                    <!-- Voice transcript will appear here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 3D Floating Effect
-        document.addEventListener('mousemove', (e) => {
-            const app = document.getElementById('app');
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            app.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-        
-        // Chat Logic
-        class ChatSystem {
-            constructor() {
-                this.messages = [];
-                this.initEventListeners();
-            }
-            
-            initEventListeners() {
-                document.querySelector('.chat-input').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.sendMessage();
-                });
-                
-                document.querySelector('.send-btn').addEventListener('click', () => this.sendMessage());
-            }
-            
-            sendMessage() {
-                const input = document.querySelector('.chat-input');
-                const message = input.value.trim();
-                if (message) {
-                    this.addMessage('user', message);
-                    input.value = '';
-                    // Here you would call your AI API
-                    this.simulateAIResponse(message);
-                }
-            }
-            
-            addMessage(sender, text) {
-                this.messages.push({ sender, text });
-                this.renderMessages();
-            }
-            
-            renderMessages() {
-                const container = document.getElementById('chat-messages');
-                container.innerHTML = this.messages.map(msg => `
-                    <div class="message ${msg.sender}">
-                        <div class="bubble">${msg.text}</div>
-                    </div>
-                `).join('');
-                container.scrollTop = container.scrollHeight;
-            }
-            
-            simulateAIResponse(userMessage) {
-                // Simulate AI typing delay
-                setTimeout(() => {
-                    const responses = [
-                        "I understand your question about: " + userMessage,
-                        "That's an interesting point about: " + userMessage,
-                        "Here's what I know regarding: " + userMessage
-                    ];
-                    const response = responses[Math.floor(Math.random() * responses.length)];
-                    this.addMessage('ai', response);
-                }, 1000);
-            }
-        }
-        
-        // Photo Upload Logic
-        class PhotoUpload {
-            constructor() {
-                this.initDropZone();
-            }
-            
-            initDropZone() {
-                const dropZone = document.getElementById('drop-zone');
-                const fileInput = document.getElementById('file-input');
-                
-                dropZone.addEventListener('click', () => fileInput.click());
-                
-                fileInput.addEventListener('change', (e) => {
-                    if (e.target.files.length) {
-                        this.handleFiles(e.target.files);
-                    }
-                });
-                
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropZone.addEventListener(eventName, preventDefaults, false);
-                });
-                
-                function preventDefaults(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropZone.addEventListener(eventName, highlight, false);
-                });
-                
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropZone.addEventListener(eventName, unhighlight, false);
-                });
-                
-                function highlight() {
-                    dropZone.classList.add('highlight');
-                }
-                
-                function unhighlight() {
-                    dropZone.classList.remove('highlight');
-                }
-                
-                dropZone.addEventListener('drop', (e) => {
-                    const dt = e.dataTransfer;
-                    const files = dt.files;
-                    this.handleFiles(files);
-                });
-            }
-            
-            handleFiles(files) {
-                const file = files[0];
-                if (file.type.startsWith('image/')) {
-                    this.previewImage(file);
-                } else {
-                    alert('Please upload an image file.');
-                }
-            }
-            
-            previewImage(file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const dropZone = document.getElementById('drop-zone');
-                    dropZone.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                    
-                    // Here you would process the image with your AI
-                    console.log('Image ready for processing:', file.name);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-        
-        // Voice Recognition Logic
-        class VoiceSystem {
-            constructor() {
-                this.recognition = null;
-                this.isListening = false;
-                this.initVoiceControl();
-            }
-            
-            initVoiceControl() {
-                const voiceControl = document.getElementById('voice-control');
-                voiceControl.addEventListener('click', () => this.toggleVoiceRecognition());
-            }
-            
-            toggleVoiceRecognition() {
-                if (this.isListening) {
-                    this.stopVoiceRecognition();
-                } else {
-                    this.startVoiceRecognition();
-                }
-            }
-            
-            startVoiceRecognition() {
-                if (!('webkitSpeechRecognition' in window)) {
-                    alert('Your browser does not support speech recognition.');
-                    return;
-                }
-                
-                this.recognition = new webkitSpeechRecognition();
-                this.recognition.continuous = true;
-                this.recognition.interimResults = true;
-                
-                this.recognition.onstart = () => {
-                    this.isListening = true;
-                    document.getElementById('voice-control').innerHTML = '<i class="icon-mic"></i> Stop Listening';
-                    this.startVisualizer();
-                };
-                
-                this.recognition.onresult = (event) => {
-                    const transcript = Array.from(event.results)
-                        .map(result => result[0])
-                        .map(result => result.transcript)
-                        .join('');
-                    
-                    document.getElementById('voice-transcript').textContent = transcript;
-                    
-                    // Process final results
-                    if (event.results[0].isFinal) {
-                        // Here you would send the transcript to your AI
-                        console.log('Final transcript:', transcript);
-                    }
-                };
-                
-                this.recognition.onerror = (event) => {
-                    console.error('Speech recognition error', event.error);
-                    this.stopVoiceRecognition();
-                };
-                
-                this.recognition.onend = () => {
-                    if (this.isListening) {
-                        this.recognition.start(); // Continue listening
-                    }
-                };
-                
-                this.recognition.start();
-            }
-            
-            stopVoiceRecognition() {
-                if (this.recognition) {
-                    this.recognition.stop();
-                }
-                this.isListening = false;
-                document.getElementById('voice-control').innerHTML = '<i class="icon-mic"></i> Start Listening';
-                this.stopVisualizer();
-            }
-            
-            startVisualizer() {
-                const visualizer = document.getElementById('visualizer');
-                visualizer.innerHTML = '';
-                
-                for (let i = 0; i < 10; i++) {
-                    const bar = document.createElement('div');
-                    bar.className = 'visualizer-bar';
-                    visualizer.appendChild(bar);
-                    
-                    // Random animation for demo
-                    bar.style.animation = `equalize ${Math.random() * 2 + 1}s infinite ease-in-out`;
-                    bar.style.animationDelay = `${i * 0.1}s`;
-                }
-            }
-            
-            stopVisualizer() {
-                document.getElementById('visualizer').innerHTML = '';
-            }
-        }
-        
-        // Initialize all systems when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new ChatSystem();
-            new PhotoUpload();
-            new VoiceSystem();
-        });
-    </script>
-</body>
-</html>
+                    Voice transcript will appear here...
+               
