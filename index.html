@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Burme AI</title>
+    <style>
+        :root {
+            --primary-color: #00f0ff;
+            --secondary-color: #ff00f0;
+            --accent-color: #f0ff00;
+            --dark-bg: #000000;
+            --text-normal: #ffffff;
+            --text-dim: #aaaaaa;
+            --glass-effect: rgba(0, 0, 0, 0.7);
+            --neon-glow: 0 0 10px var(--primary-color), 0 0 20px var(--secondary-color);
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-normal);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        
+        /* Floating 3D Effect */
+        .floating-3d {
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateX(5deg) rotateY(5deg); }
+        }
+        
+        /* Glass Morphism UI */
+        .glass-panel {
+            background: var(--glass-effect);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.36);
+        }
+        
+        /* Neon Gradients */
+        .neon-text {
+            text-shadow: var(--neon-glow);
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app" class="floating-3d">
+        <!-- Sidebar Menu -->
+        <div class="sidebar glass-panel">
+            <div class="logo neon-text">Smart Burme AI</div>
+            <nav class="menu">
+                <ul>
+                    <li class="active"><i class="icon-chat"></i> Chat</li>
+                    <li><i class="icon-voice"></i> Voice</li>
+                    <li><i class="icon-photo"></i> Photo Upload</li>
+                    <li><i class="icon-settings"></i> Settings</li>
+                </ul>
+            </nav>
+            <div class="user-info">
+                <div class="avatar"></div>
+                <div class="user-name">User</div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Chat Interface -->
+            <div class="chat-container glass-panel">
+                <div class="chat-header">
+                    <h2 class="neon-text">AI Assistant</h2>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will appear here -->
+                </div>
+                <div class="chat-input-container">
+                    <div class="input-options">
+                        <button class="voice-btn"><i class="icon-mic"></i></button>
+                        <button class="upload-btn"><i class="icon-upload"></i></button>
+                    </div>
+                    <input type="text" class="chat-input" placeholder="Type your message...">
+                    <button class="send-btn"><i class="icon-send"></i></button>
+                </div>
+            </div>
+            
+            <!-- Photo Upload Modal -->
+            <div class="modal photo-upload-modal">
+                <div class="modal-content glass-panel">
+                    <h3 class="neon-text">Upload Photo</h3>
+                    <div class="upload-area" id="drop-zone">
+                        <i class="icon-cloud-upload"></i>
+                        <p>Drag & drop your photo here or click to browse</p>
+                        <input type="file" id="file-input" accept="image/*">
+                    </div>
+                    <div class="modal-actions">
+                        <button class="cancel-btn">Cancel</button>
+                        <button class="process-btn neon-text">Process Image</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Voice Interface -->
+            <div class="voice-interface glass-panel">
+                <div class="visualizer" id="visualizer">
+                    <!-- Voice visualization will appear here -->
+                </div>
+                <button class="voice-control-btn neon-text" id="voice-control">
+                    <i class="icon-mic"></i> Start Listening
+                </button>
+                <div class="voice-transcript" id="voice-transcript">
+                    <!-- Voice transcript will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 3D Floating Effect
+        document.addEventListener('mousemove', (e) => {
+            const app = document.getElementById('app');
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            app.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+        
+        // Chat Logic
+        class ChatSystem {
+            constructor() {
+                this.messages = [];
+                this.initEventListeners();
+            }
+            
+            initEventListeners() {
+                document.querySelector('.chat-input').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+                
+                document.querySelector('.send-btn').addEventListener('click', () => this.sendMessage());
+            }
+            
+            sendMessage() {
+                const input = document.querySelector('.chat-input');
+                const message = input.value.trim();
+                if (message) {
+                    this.addMessage('user', message);
+                    input.value = '';
+                    // Here you would call your AI API
+                    this.simulateAIResponse(message);
+                }
+            }
+            
+            addMessage(sender, text) {
+                this.messages.push({ sender, text });
+                this.renderMessages();
+            }
+            
+            renderMessages() {
+                const container = document.getElementById('chat-messages');
+                container.innerHTML = this.messages.map(msg => `
+                    <div class="message ${msg.sender}">
+                        <div class="bubble">${msg.text}</div>
+                    </div>
+                `).join('');
+                container.scrollTop = container.scrollHeight;
+            }
+            
+            simulateAIResponse(userMessage) {
+                // Simulate AI typing delay
+                setTimeout(() => {
+                    const responses = [
+                        "I understand your question about: " + userMessage,
+                        "That's an interesting point about: " + userMessage,
+                        "Here's what I know regarding: " + userMessage
+                    ];
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    this.addMessage('ai', response);
+                }, 1000);
+            }
+        }
+        
+        // Photo Upload Logic
+        class PhotoUpload {
+            constructor() {
+                this.initDropZone();
+            }
+            
+            initDropZone() {
+                const dropZone = document.getElementById('drop-zone');
+                const fileInput = document.getElementById('file-input');
+                
+                dropZone.addEventListener('click', () => fileInput.click());
+                
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length) {
+                        this.handleFiles(e.target.files);
+                    }
+                });
+                
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropZone.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    dropZone.classList.add('highlight');
+                }
+                
+                function unhighlight() {
+                    dropZone.classList.remove('highlight');
+                }
+                
+                dropZone.addEventListener('drop', (e) => {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    this.handleFiles(files);
+                });
+            }
+            
+            handleFiles(files) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    this.previewImage(file);
+                } else {
+                    alert('Please upload an image file.');
+                }
+            }
+            
+            previewImage(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const dropZone = document.getElementById('drop-zone');
+                    dropZone.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    
+                    // Here you would process the image with your AI
+                    console.log('Image ready for processing:', file.name);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Voice Recognition Logic
+        class VoiceSystem {
+            constructor() {
+                this.recognition = null;
+                this.isListening = false;
+                this.initVoiceControl();
+            }
+            
+            initVoiceControl() {
+                const voiceControl = document.getElementById('voice-control');
+                voiceControl.addEventListener('click', () => this.toggleVoiceRecognition());
+            }
+            
+            toggleVoiceRecognition() {
+                if (this.isListening) {
+                    this.stopVoiceRecognition();
+                } else {
+                    this.startVoiceRecognition();
+                }
+            }
+            
+            startVoiceRecognition() {
+                if (!('webkitSpeechRecognition' in window)) {
+                    alert('Your browser does not support speech recognition.');
+                    return;
+                }
+                
+                this.recognition = new webkitSpeechRecognition();
+                this.recognition.continuous = true;
+                this.recognition.interimResults = true;
+                
+                this.recognition.onstart = () => {
+                    this.isListening = true;
+                    document.getElementById('voice-control').innerHTML = '<i class="icon-mic"></i> Stop Listening';
+                    this.startVisualizer();
+                };
+                
+                this.recognition.onresult = (event) => {
+                    const transcript = Array.from(event.results)
+                        .map(result => result[0])
+                        .map(result => result.transcript)
+                        .join('');
+                    
+                    document.getElementById('voice-transcript').textContent = transcript;
+                    
+                    // Process final results
+                    if (event.results[0].isFinal) {
+                        // Here you would send the transcript to your AI
+                        console.log('Final transcript:', transcript);
+                    }
+                };
+                
+                this.recognition.onerror = (event) => {
+                    console.error('Speech recognition error', event.error);
+                    this.stopVoiceRecognition();
+                };
+                
+                this.recognition.onend = () => {
+                    if (this.isListening) {
+                        this.recognition.start(); // Continue listening
+                    }
+                };
+                
+                this.recognition.start();
+            }
+            
+            stopVoiceRecognition() {
+                if (this.recognition) {
+                    this.recognition.stop();
+                }
+                this.isListening = false;
+                document.getElementById('voice-control').innerHTML = '<i class="icon-mic"></i> Start Listening';
+                this.stopVisualizer();
+            }
+            
+            startVisualizer() {
+                const visualizer = document.getElementById('visualizer');
+                visualizer.innerHTML = '';
+                
+                for (let i = 0; i < 10; i++) {
+                    const bar = document.createElement('div');
+                    bar.className = 'visualizer-bar';
+                    visualizer.appendChild(bar);
+                    
+                    // Random animation for demo
+                    bar.style.animation = `equalize ${Math.random() * 2 + 1}s infinite ease-in-out`;
+                    bar.style.animationDelay = `${i * 0.1}s`;
+                }
+            }
+            
+            stopVisualizer() {
+                document.getElementById('visualizer').innerHTML = '';
+            }
+        }
+        
+        // Initialize all systems when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ChatSystem();
+            new PhotoUpload();
+            new VoiceSystem();
+        });
+    </script>
+</body>
+</html>
