@@ -1,48 +1,67 @@
-<!DOCTYPE html>
-<html lang="my">
+<!DOCTYPE html><html lang="my">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Features Menu</title>
-  <style>
-    body {
-      background: #121212;
-      color: #00f0ff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 1rem;
-    }
-    button {
-      background: #00f0ff;
-      border: none;
-      padding: 0.7rem 1.5rem;
-      margin: 0.5rem;
-      border-radius: 12px;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-    }
-    button:hover {
-      background: #00c4cc;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Tools Menu - Smart Burme</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Feature Menu</h2>
-  <button id="chatBtn">Chat</button>
-  <button id="photoGenBtn">Photo Generate</button>
-  <button id="uploadBtn">Photo Upload</button>
+  <div class="menu-container">
+    <header class="menu-header">
+      <a href="index.html" class="icon-button">🔙</a>
+      <h2>AI လုပ်ဆောင်ချက်များ</h2>
+    </header><section class="menu-section">
+  <div class="tool-card">
+    <h3>🖼️ Text to Image</h3>
+    <input type="text" id="textToImageInput" placeholder="ပုံဖန်တီးရန် စာရေးပါ...">
+    <button onclick="generateImage()">Generate</button>
+    <div id="generatedImageBox"></div>
+  </div>
 
-  <script>
-    document.getElementById('chatBtn').addEventListener('click', () => {
-      alert('Chat feature selected');
-      // Implement feature switching logic here
-    });
-    document.getElementById('photoGenBtn').addEventListener('click', () => {
-      alert('Photo generate feature selected');
-    });
-    document.getElementById('uploadBtn').addEventListener('click', () => {
-      alert('Photo upload feature selected');
-    });
-  </script>
-</body>
+  <div class="tool-card">
+    <h3>📤 ပုံတင်ရန်</h3>
+    <input type="file" id="imageUpload" accept="image/*">
+    <button onclick="uploadUserPhoto()">Upload</button>
+    <div id="uploadedImageBox"></div>
+  </div>
+</section>
+
+  </div>  <script>
+    async function generateImage() {
+      const prompt = document.getElementById('textToImageInput').value;
+      if (!prompt) return;
+
+      const apiKey = localStorage.getItem('OPENAI_API_KEY');
+      const response = await fetch("https://api.openai.com/v1/images/generations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: "dall-e-3",
+          prompt: prompt,
+          n: 1,
+          size: "512x512"
+        })
+      });
+      const data = await response.json();
+      const imgUrl = data.data[0].url;
+      document.getElementById("generatedImageBox").innerHTML = `<img src="${imgUrl}" alt="generated">`;
+      localStorage.setItem('lastGeneratedImage', imgUrl);
+    }
+
+    async function uploadUserPhoto() {
+      const file = document.getElementById('imageUpload').files[0];
+      if (!file) return alert("ဖိုင်ရွေးပါ။");
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const imageUrl = e.target.result;
+        document.getElementById("uploadedImageBox").innerHTML = `<img src="${imageUrl}" alt="uploaded">`;
+        localStorage.setItem('uploadedImage', imageUrl);
+      };
+      reader.readAsDataURL(file);
+    }
+  </script></body>
 </html>
