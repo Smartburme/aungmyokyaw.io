@@ -1,54 +1,197 @@
-<div style="font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; background-color: #f5f5f5; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+# Smart Burme Book Website Structure
 
-<!-- Header Section -->
-<header style="background-color: #000000; color: white; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
-  <img src="./main/image/logo.jpg" alt="Smart Burme Book Logo" style="height: 80px; border-radius: 50%;">
-  <h1 style="color: #4CAF50; margin-top: 10px;">Smart Burme Book</h1>
-  <p style="font-style: italic;">မြန်မာစာဖတ်စာအုပ်အက်ပ်လီကေးရှင်း</p>
-</header>
+Based on your requirements, I'll outline the structure for your "Smart Burme Book" website with a black background theme.
 
-<!-- Navigation Menu -->
-<nav style="background-color: #333; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-  <ul style="list-style-type: none; padding: 0; margin: 0; display: flex; justify-content: center;">
-    <li style="margin: 0 15px;"><a href="./main/site/menu.html" style="color: white; text-decoration: none;">Menu</a></li>
-    <li style="margin: 0 15px;"><a href="#features" style="color: white; text-decoration: none;">Features</a></li>
-    <li style="margin: 0 15px;"><a href="#structure" style="color: white; text-decoration: none;">Structure</a></li>
-  </ul>
-</nav>
+## Directory Structure
+```
+smart-burme-book/
+├── main/
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── script.js
+│   ├── image/
+│   │   └── logo.jpg
+│   └── site/
+│       ├── menu.html
+│       ├── menu.css
+│       └── menu.js
+└── index.html
+```
 
-<!-- Main Content -->
-<main>
-  <section id="features" style="margin-bottom: 20px;">
-    <h2 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">အထူးလုပ်ဆောင်ချက်များ</h2>
-    <ul style="padding-left: 20px;">
-      <li>မြန်မာစာဖတ်စာအုပ်များ</li>
-      <li>အသံထွက်ဖတ်ပေးခြင်း</li>
-      <li>စကားလုံးအဘိဓာန်</li>
-    </ul>
-  </section>
+## HTML Template (index.html)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Burme Book</title>
+    <link rel="stylesheet" href="main/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="main/image/logo.jpg" alt="Smart Burme Book Logo">
+            </a>
+        </div>
+        <nav class="menu">
+            <a href="main/site/menu.html">Menu</a>
+            <!-- Add more navigation items as needed -->
+        </nav>
+    </header>
 
-  <section id="structure" style="margin-bottom: 20px;">
-    <h2 style="color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 5px;">Project Structure</h2>
-    <pre style="background-color: #eee; padding: 10px; border-radius: 5px; overflow-x: auto;">
-📦main
- ┣ 📂css
- ┃ ┗ 📜style.css
- ┣ 📂Js
- ┃ ┗ 📜script.js
- ┣ 📂image
- ┃ ┗ 📜logo.jpg
- ┣ 📂site
- ┃ ┣ 📜menu.html
- ┃ ┣ 📜menu.css
- ┃ ┗ 📜menu.js
- ┗ 📜index.html</pre>
-  </section>
-</main>
+    <main>
+        <h1>Welcome to Smart Burme Book</h1>
+        <!-- Your content here -->
+    </main>
 
-<!-- Footer -->
-<footer style="background-color: #000000; color: white; padding: 15px; text-align: center; border-radius: 8px; margin-top: 20px;">
-  <p>© 2023 Smart Burme Book. All rights reserved.</p>
-  <p>Contact: <a href="mailto:contact@smartburmebook.com" style="color: #4CAF50;">contact@smartburmebook.com</a></p>
-</footer>
+    <footer>
+        <p>2025. Deployed by Smart Burme</p>
+    </footer>
 
-</div>
+    <script src="main/js/script.js"></script>
+</body>
+</html>
+```
+
+## CSS (main/css/style.css)
+```css
+/* Main Stylesheet */
+body {
+    background-color: #000000; /* Black background */
+    color: #ffffff; /* White text for contrast */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #111111;
+}
+
+.logo img {
+    height: 50px; /* Adjust as needed */
+}
+
+.menu a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.menu a:hover {
+    color: #cccccc;
+}
+
+main {
+    padding: 20px;
+    min-height: 80vh;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #111111;
+}
+```
+
+## JavaScript (main/js/script.js)
+```javascript
+// Main JavaScript file
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Smart Burme Book website loaded');
+    // Add your JavaScript functionality here
+});
+```
+
+## Menu Page (main/site/menu.html)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Smart Burme Book</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../image/logo.jpg" alt="Smart Burme Book Logo">
+            </a>
+        </div>
+        <nav class="menu">
+            <a href="../index.html">Home</a>
+            <!-- Add more navigation items as needed -->
+        </nav>
+    </header>
+
+    <main>
+        <h1>Menu</h1>
+        <ul class="menu-list">
+            <li><a href="#">xxx (link folder)</a></li>
+            <li><a href="#">xxxx (link)</a></li>
+            <li><a href="#">xxxx (link)</a></li>
+            <li><a href="#">etc...</a></li>
+        </ul>
+    </main>
+
+    <footer>
+        <p>2025. Deployed by Smart Burme</p>
+    </footer>
+
+    <script src="menu.js"></script>
+</body>
+</html>
+```
+
+## Menu CSS (main/site/menu.css)
+```css
+/* Menu specific styles */
+.menu-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-list li {
+    margin: 10px 0;
+}
+
+.menu-list a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.menu-list a:hover {
+    color: #cccccc;
+    text-decoration: underline;
+}
+```
+
+## Menu JavaScript (main/site/menu.js)
+```javascript
+// Menu specific JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Menu page loaded');
+    // Add menu specific functionality here
+});
+```
+
+This structure follows your requirements with:
+1. Black background (#000000)
+2. Logo linked from main/image/logo.jpg
+3. Menu linked to main/site/menu.html
+4. Organized CSS, JS, and image files in their respective directories
+5. Clean separation between main site and menu-specific files
+
+You can expand this structure by adding more pages in the main/site/ directory and linking to them from the menu.
