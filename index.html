@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Burme Book</title>
+    <link rel="stylesheet" href="main/css/style.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #4da6ff;
+            --bg-color: #000;
+            --text-color: #fff;
+            --header-bg: #111;
+            --card-bg: #222;
+            --border-color: #444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Padauk', 'Myanmar3', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Menu Styles */
+        .menu {
+            display: flex;
+            gap: 15px;
+        }
+
+        .menu-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Padauk', 'Myanmar3', sans-serif;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .menu-btn:hover {
+            background-color: #3a8be6;
+        }
+
+        .about-btn {
+            background-color: #666;
+        }
+
+        .about-btn:hover {
+            background-color: #555;
+        }
+
+        /* Main Content */
+        main {
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+        }
+
+        /* Link List */
+        .link-container {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .link-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .link-list li {
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .link-list li:last-child {
+            border-bottom: none;
+        }
+
+        .link-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--header-bg);
+            text-align: center;
+            padding: 12px;
+            font-size: 13px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .menu {
+                margin-top: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Web View -->
+    <div class="container">
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="main/image/logo.jpg" alt="Smart Burme Book Logo">
+                </a>
+            </div>
+            <nav class="menu">
+                <a href="main/site/menu.html" class="menu-btn">မီနူး</a>
+                <a href="#" class="menu-btn">လင့်ခ် ၁</a>
+                <a href="#" class="menu-btn">လင့်ခ် ၂</a>
+                <a href="#" class="menu-btn">လင့်ခ် ၃</a>
+                <a href="README.md" class="menu-btn about-btn">အကြောင်း</a>
+            </nav>
+        </header>
+
+        <main>
+            <h1>Smart Burme Book</h1>
+            
+            <div class="link-container">
+                <ul class="link-list">
+                    <li>၁။ <a href="https://github.com/Smartburme/smart-burme-ai/">စာအုပ်</a></li>
+                    <li>၂။ <a href="#">ဒေတာများ</a></li>
+                    <li>၃။ <a href="#">အကူအညီ</a></li>
+                    <li>၄။ <a href="#">အခြား</a></li>
+                </ul>
+            </div>
+        </main>
+
+        <footer>
+            <p>၂၀၂၅။ Smart Burme မှပြုလုပ်သည်</p>
+        </footer>
+    </div>
+
+    <script>
+        // You can add JavaScript functionality here if needed
+    </script>
+</body>
+</html>
