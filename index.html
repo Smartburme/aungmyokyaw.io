@@ -4,98 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Burme Book</title>
-    <link rel="stylesheet" href="main/css/style.css">
     <style>
-        /* Base Styles */
+        /* Color Theme */
         :root {
-            --primary-color: #4da6ff;
-            --bg-color: #000;
-            --text-color: #fff;
-            --header-bg: #111;
-            --card-bg: #222;
-            --border-color: #444;
+            --primary: #6C5CE7;  /* Purple */
+            --secondary: #00B894; /* Teal */
+            --dark: #2D3436;     /* Dark gray */
+            --light: #DFE6E9;    /* Light gray */
+            --accent: #FD79A8;   /* Pink */
         }
 
+        /* Base Styles */
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--dark);
+            color: var(--light);
             font-family: 'Padauk', 'Myanmar3', sans-serif;
             line-height: 1.6;
         }
 
-        /* Container */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
         /* Header */
         header {
-            background-color: var(--header-bg);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .logo img {
-            height: 40px;
+            height: 45px;
             width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
-        /* Menu Styles */
-        .menu {
-            display: flex;
-            gap: 15px;
-        }
-
+        /* Single Menu Button */
         .menu-btn {
-            background-color: var(--primary-color);
+            background-color: var(--accent);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 8px 20px;
+            border-radius: 25px;
             cursor: pointer;
             font-family: 'Padauk', 'Myanmar3', sans-serif;
             text-decoration: none;
             font-size: 14px;
-            transition: background-color 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .menu-btn:hover {
-            background-color: #3a8be6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
 
-        .about-btn {
-            background-color: #666;
+        /* Device Frame */
+        .device-frame {
+            width: 90%;
+            max-width: 400px;
+            height: 700px;
+            margin: 30px auto;
+            border: 12px solid #444;
+            border-radius: 35px;
+            overflow: hidden;
+            position: relative;
+            background: var(--dark);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3),
+                        inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-        .about-btn:hover {
-            background-color: #555;
+        .device-screen {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
-        /* Main Content */
-        main {
+        /* Content Styles */
+        .content {
+            background-color: rgba(45, 52, 54, 0.8);
+            border-radius: 10px;
             padding: 20px;
+            margin-top: 20px;
         }
 
         h1 {
+            color: var(--secondary);
             text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 30px;
-        }
-
-        /* Link List */
-        .link-container {
-            background-color: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            margin: 0 auto;
-            max-width: 800px;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .link-list {
@@ -105,70 +106,94 @@
         }
 
         .link-list li {
-            margin-bottom: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(99, 110, 114, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s;
         }
 
-        .link-list li:last-child {
-            border-bottom: none;
+        .link-list li:hover {
+            background-color: rgba(99, 110, 114, 0.5);
+            transform: translateX(5px);
         }
 
         .link-list a {
-            color: var(--primary-color);
+            color: var(--light);
             text-decoration: none;
             display: block;
+            font-size: 16px;
+        }
+
+        .link-list a:hover {
+            color: var(--accent);
+        }
+
+        /* About Link */
+        .about-link {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .about-link a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-size: 16px;
+            border-bottom: 1px dashed var(--secondary);
+            padding-bottom: 3px;
+            transition: all 0.3s;
+        }
+
+        .about-link a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
         }
 
         /* Footer */
         footer {
-            background-color: var(--header-bg);
             text-align: center;
-            padding: 12px;
-            font-size: 13px;
+            padding: 15px;
+            font-size: 14px;
+            color: var(--light);
+            background-color: rgba(0,0,0,0.3);
+            margin-top: 30px;
         }
 
-        /* Responsive Breakpoints */
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .device-frame {
+                width: 95%;
+                height: 650px;
+                border-width: 10px;
+            }
+            
             header {
-                flex-direction: column;
-                text-align: center;
+                padding: 12px 15px;
             }
             
-            .menu {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            h1 {
-                font-size: 20px;
+            .logo img {
+                height: 40px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Main Web View -->
-    <div class="container">
-        <header>
-            <div class="logo">
-                <a href="index.html">
-                    <img src="main/image/logo.jpg" alt="Smart Burme Book Logo">
-                </a>
-            </div>
-            <nav class="menu">
-                <a href="main/site/menu.html" class="menu-btn">မီနူး</a>
-                <a href="#" class="menu-btn">လင့်ခ် ၁</a>
-                <a href="#" class="menu-btn">လင့်ခ် ၂</a>
-                <a href="#" class="menu-btn">လင့်ခ် ၃</a>
-                <a href="README.md" class="menu-btn about-btn">အကြောင်း</a>
-            </nav>
-        </header>
+    <!-- Header with Single Menu Button -->
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="main/image/logo.jpg" alt="Smart Burme Book Logo">
+            </a>
+        </div>
+        <a href="main/site/menu.html" class="menu-btn">မီနူး</a>
+    </header>
 
-        <main>
+    <!-- Device Frame -->
+    <div class="device-frame">
+        <div class="device-screen">
             <h1>Smart Burme Book</h1>
             
-            <div class="link-container">
+            <div class="content">
                 <ul class="link-list">
                     <li>၁။ <a href="https://github.com/Smartburme/smart-burme-ai/">စာအုပ်</a></li>
                     <li>၂။ <a href="#">ဒေတာများ</a></li>
@@ -176,15 +201,16 @@
                     <li>၄။ <a href="#">အခြား</a></li>
                 </ul>
             </div>
-        </main>
-
-        <footer>
-            <p>၂၀၂၅။ Smart Burme မှပြုလုပ်သည်</p>
-        </footer>
+            
+            <!-- About Link -->
+            <div class="about-link">
+                <a href="README.md">About - အကြောင်း</a>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // You can add JavaScript functionality here if needed
-    </script>
+    <footer>
+        <p>၂၀၂၅။ Smart Burme မှပြုလုပ်သည်</p>
+    </footer>
 </body>
 </html>
