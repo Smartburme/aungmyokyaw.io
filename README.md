@@ -9,7 +9,7 @@
 </div>
 
 ## Project Structure
-
+```
 📦main
  ┣ 📂css
  ┃ ┗ 📜style.css
@@ -22,7 +22,7 @@
  ┃ ┣ 📜menu.css
  ┃ ┗ 📜menu.js
  ┗ 📜index.html
-
+```
 ## Quick Links
 
 - [Main CSS File](./main/css/style.css)
